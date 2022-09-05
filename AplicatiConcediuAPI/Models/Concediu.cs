@@ -18,23 +18,5 @@ namespace XD.Models
         public virtual Angajat? Inlocuitor { get; set; }
         public virtual StareConcediu? StareConcediu { get; set; }
         public virtual TipConcediu? TipConcediu { get; set; }
-
-        public Concediu() { }
-
-        public Concediu(int id, int? tipConcediuId, DateTime dataInceput, DateTime dataSfarsit, int? inlocuitorId, string? comentarii, int? stareConcediuId, int? angajatId, Angajat? angajat, Angajat? inlocuitor, StareConcediu? stareConcediu, TipConcediu? tipConcediu)
-        {
-            Id = id;
-            TipConcediuId = tipConcediuId;
-            DataInceput = dataInceput;
-            DataSfarsit = dataSfarsit;
-            InlocuitorId = inlocuitorId;
-            Comentarii = comentarii;
-            StareConcediuId = stareConcediuId;
-            AngajatId = angajatId;
-            Angajat = angajat;
-            Inlocuitor = inlocuitor;
-            StareConcediu = stareConcediu;
-            TipConcediu = tipConcediu;
-        }
     }
 }

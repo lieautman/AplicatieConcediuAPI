@@ -18,11 +18,31 @@ namespace AplicatieConcediuAPI.Controllers
         }
 
         [HttpPost("PostAngajatInregistrare")]
-        public string PostAngajatInregistrare(string nume, string prenume, string email, string parola, DateTime dataNasterii, string cnp, string serieSiNrCI, string numarTelefon)
+        public string PostAngajatInregistrare([FromBody] Angajat a)
         {
-            //_gameOfThronesContext.Concedius.Include(x => x.TipConcediu).Select(x => new Concediu() { Id = x.Id, Comentarii = x.Comentarii, TipConcediu = x.TipConcediu }).Where(x => x.TipConcediu.Id == 2).ToList();
-            Angajat angajat = new Angajat(nume, prenume, email, parola, dataNasterii, cnp, serieSiNrCI, numarTelefon);
-            _gameOfThronesContext.Angajats.Add(angajat);
+            try
+            {
+                Angajat angajat = new Angajat();
+                angajat.Nume = a.Nume;
+                angajat.Prenume = a.Prenume;
+                angajat.DataNasterii = a.DataNasterii;
+                angajat.Email = a.Email;
+                angajat.Numartelefon = a.Numartelefon;
+                angajat.Cnp = a.Cnp;
+                angajat.SeriaNumarBuletin = a.SeriaNumarBuletin;
+                angajat.Parola = a.Parola;
+                _gameOfThronesContext.Angajats.Add(angajat);
+                _gameOfThronesContext.SaveChanges();
+                return "Inregistrare efectuata!";
+            }
+            catch(Exception ex)
+            {
+                return ex.Message;
+            }
+        }
+        [HttpGet("PostAngajatInregistrare")]
+        public string GetAngajatInregistrare()
+        {
             return "Inregistrare efectuata!";
         }
     }
