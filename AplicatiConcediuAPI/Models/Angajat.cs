@@ -62,26 +62,16 @@ namespace XD.Models
             InverseManager = inverseManager;
         }
 
-        public Angajat(int id, string nume, string prenume, string email, string? parola, DateTime? dataAngajarii, DateTime dataNasterii, string cnp, string? seriaNumarBuletin, string? numartelefon, byte[]? poza, bool? esteAdmin, int? numarZileConceiduRamase, int? managerId, decimal? salariu, bool? esteAngajatCuActeInRegula, int? idEchipa)
+        public Angajat(string nume, string prenume, string email, string? parola, DateTime dataNasterii, string cnp, string? seriaNumarBuletin, string? numartelefon)
         {
-            Id = id;
             Nume = nume;
             Prenume = prenume;
             Email = email;
             Parola = parola;
-            DataAngajarii = dataAngajarii;
             DataNasterii = dataNasterii;
             Cnp = cnp;
             SeriaNumarBuletin = seriaNumarBuletin;
             Numartelefon = numartelefon;
-            Poza = poza;
-            EsteAdmin = esteAdmin;
-            NumarZileConceiduRamase = numarZileConceiduRamase;
-            ManagerId = managerId;
-            Salariu = salariu;
-            EsteAngajatCuActeInRegula = esteAngajatCuActeInRegula;
-            IdEchipa = idEchipa;
         }
-
     }
 }
