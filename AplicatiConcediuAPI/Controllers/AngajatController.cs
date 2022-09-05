@@ -17,6 +17,7 @@ namespace AplicatieConcediuAPI.Controllers
             _gameOfThronesContext = gameOfThronesContext;
         }
 
+        //formular inregistrare endpoint
         [HttpPost("PostAngajatInregistrare")]
         public string PostAngajatInregistrare([FromBody] Angajat a)
         {
@@ -40,14 +41,11 @@ namespace AplicatieConcediuAPI.Controllers
                 return ex.Message;
             }
         }
-        [HttpGet("PostAngajatInregistrare")]
-        public string GetAngajatInregistrare()
-        {
-            return "Inregistrare efectuata!";
-        }
 
-        [HttpGet("GetUserPassAutentificare")]
-        public ActionResult<Angajat> GetUserPassAutentificare( string email, string parola)
+
+        //formular autentificare endpoint
+        [HttpGet("GetAngajatAutentificare")]
+        public ActionResult<Angajat> GetAngajatAutentificare( string email, string parola)
         {
             if (email == null && parola == null)
             {
@@ -55,13 +53,17 @@ namespace AplicatieConcediuAPI.Controllers
             }
             else
             {
-                Angajat a = _gameOfThronesContext.Angajats.Select(x => x).
-                Where(x => x.Email == email && x.Parola == parola).FirstOrDefault();
-                return a;
+                try
+                {
+                    Angajat a = _gameOfThronesContext.Angajats.Select(x => x).Where(x => x.Email == email && x.Parola == parola).FirstOrDefault();
+                    return a;
+                }
+                catch(Exception ex)
+                {
+                    return NotFound();
+                }
             }
             return Ok();
-
-          
         }
     }
 }
