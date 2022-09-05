@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using XD.Models;
 
 namespace AplicatieConcediuAPI.Controllers
@@ -16,12 +17,11 @@ namespace AplicatieConcediuAPI.Controllers
             _gameOfThronesContext = gameOfThronesContext;
         }
 
-        //formular vizualizare concedii
+        //formular vizualizare concedii preluare concedii
         [HttpGet("GetAngajatAutentificare")]
         public List<Concediu> GetAngajatAutentificare(string email)
         {
-            List<Concediu> a = _gameOfThronesContext.Concedius.Select(x => x).ToList();
-
+            List<Concediu> a = _gameOfThronesContext.Concedius.Include(x => x.Angajat).Select(x => x).Where(X=> X.Angajat.Email == email).ToList();
             return a;
         }
 
