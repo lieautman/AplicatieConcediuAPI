@@ -21,10 +21,29 @@ namespace AplicatieConcediuAPI.Controllers
         public List<Angajat> PostAngajatInregistrare(int id)
         {
             List<Angajat> a = new List<Angajat>();
-            //_gameOfThronesContext.Concedius.Include(x => x.TipConcediu).Select(x => new Concediu() { Id = x.Id, Comentarii = x.Comentarii, TipConcediu = x.TipConcediu }).Where(x => x.TipConcediu.Id == 2).ToList();
+            //_gameOfThronesContext.Concedius.Include(x => x.TipConcediu).Select(x => new Concediu()
+            //{ Id = x.Id, Comentarii = x.Comentarii, TipConcediu = x.TipConcediu }).Where(x => x.TipConcediu.Id == 2).ToList();
 
 
             return a;
+        }
+
+        [HttpGet("GetUserPassAutentificare")]
+        public ActionResult<Angajat> GetUserPassAutentificare( string email, string parola)
+        {
+            if (email == null && parola == null)
+            {
+                throw new Exception("Email si parola invalide");
+            }
+            else
+            {
+                Angajat a = _gameOfThronesContext.Angajats.Select(x => x).
+                Where(x => x.Email == email && x.Parola == parola).FirstOrDefault();
+                return a;
+            }
+            return Ok();
+
+          
         }
     }
 }
