@@ -36,42 +36,5 @@ namespace XD.Models
         public virtual ICollection<Concediu> ConcediuInlocuitors { get; set; }
         public virtual ICollection<Angajat> InverseManager { get; set; }
 
-        public Angajat(int id, string nume, string prenume, string email, string? parola, DateTime? dataAngajarii, DateTime dataNasterii, string cnp, string? seriaNumarBuletin, string? numartelefon, byte[]? poza, bool? esteAdmin, int? numarZileConceiduRamase, int? managerId, decimal? salariu, bool? esteAngajatCuActeInRegula, int? idEchipa, Echipa? idEchipaNavigation, Angajat? manager, ICollection<Concediu> concediuAngajats, ICollection<Concediu> concediuInlocuitors, ICollection<Angajat> inverseManager)
-        {
-            Id = id;
-            Nume = nume;
-            Prenume = prenume;
-            Email = email;
-            Parola = parola;
-            DataAngajarii = dataAngajarii;
-            DataNasterii = dataNasterii;
-            Cnp = cnp;
-            SeriaNumarBuletin = seriaNumarBuletin;
-            Numartelefon = numartelefon;
-            Poza = poza;
-            EsteAdmin = esteAdmin;
-            NumarZileConceiduRamase = numarZileConceiduRamase;
-            ManagerId = managerId;
-            Salariu = salariu;
-            EsteAngajatCuActeInRegula = esteAngajatCuActeInRegula;
-            IdEchipa = idEchipa;
-            IdEchipaNavigation = idEchipaNavigation;
-            Manager = manager;
-            ConcediuAngajats = concediuAngajats;
-            ConcediuInlocuitors = concediuInlocuitors;
-            InverseManager = inverseManager;
-        }
-
-        public Angajat(string nume, string prenume, string email, string? parola, DateTime dataNasterii, string cnp, string? seriaNumarBuletin, string? numartelefon)
-        {
-            Nume = nume;
-            Prenume = prenume;
-            Email = email;
-            Parola = parola;
-            DataNasterii = dataNasterii;
-            Cnp = cnp;
-            SeriaNumarBuletin = seriaNumarBuletin;
-            Numartelefon = numartelefon;
-        }
     }
 }
