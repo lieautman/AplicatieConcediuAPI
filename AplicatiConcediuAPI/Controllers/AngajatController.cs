@@ -45,5 +45,23 @@ namespace AplicatieConcediuAPI.Controllers
         {
             return "Inregistrare efectuata!";
         }
+
+        [HttpGet("GetUserPassAutentificare")]
+        public ActionResult<Angajat> GetUserPassAutentificare( string email, string parola)
+        {
+            if (email == null && parola == null)
+            {
+                throw new Exception("Email si parola invalide");
+            }
+            else
+            {
+                Angajat a = _gameOfThronesContext.Angajats.Select(x => x).
+                Where(x => x.Email == email && x.Parola == parola).FirstOrDefault();
+                return a;
+            }
+            return Ok();
+
+          
+        }
     }
 }
