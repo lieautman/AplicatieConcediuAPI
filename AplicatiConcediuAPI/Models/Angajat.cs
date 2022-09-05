@@ -35,5 +35,6 @@ namespace XD.Models
         public virtual ICollection<Concediu> ConcediuAngajats { get; set; }
         public virtual ICollection<Concediu> ConcediuInlocuitors { get; set; }
         public virtual ICollection<Angajat> InverseManager { get; set; }
+
     }
 }
