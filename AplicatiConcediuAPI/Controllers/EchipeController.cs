@@ -3,6 +3,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using XD.Models;
 
-public class EchipeController : ControllerBase  
+namespace XD.Controllers
 {
+    [ApiController]
+    [Route("[controller]")]
+    public class EchipeController : ControllerBase
+    {
+    }
 }
