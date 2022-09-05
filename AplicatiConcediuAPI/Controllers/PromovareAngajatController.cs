@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json;
+using System.Text;
 using XD.Models;
 
 namespace AplicatieConcediuAPI.Controllers
@@ -18,11 +20,12 @@ namespace AplicatieConcediuAPI.Controllers
         }
 
         [HttpGet("PromovareAngajat")]
-        public List<Angajat> PromovareAngajat()
+        public string PromovareAngajat()
         {
            List<Angajat> a= _gameOfThronesContext.Angajats.Select(x => new Angajat() { Id=x.Id,Nume=x.Nume,Prenume=x.Prenume,Email=x.Email,DataNasterii=x.DataNasterii,Numartelefon=x.Numartelefon, ManagerId=x.ManagerId}).
-                Where(x=>x.ManagerId != null).ToList();
-            return a;
+                Where(x=>x.ManagerId == null).ToList();
+            string jsonString = JsonSerializer.Serialize<List<Angajat>>(a);
+            return jsonString;
 
         }
 
