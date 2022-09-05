@@ -43,10 +43,10 @@ namespace AplicatieConcediuAPI.Controllers
 
 
         //formular autentificare endpoint
-        [HttpGet("GetAngajatAutentificare")]
-        public ActionResult<Angajat> GetAngajatAutentificare( string email, string parola)
+        [HttpPost("GetAngajatAutentificare")]
+        public ActionResult<Angajat> GetAngajatAutentificare(Angajat a)
         {
-            if (email == null && parola == null)
+            if (a.Email == null && a.Parola == null)
             {
                 throw new Exception("Email si parola invalide");
             }
@@ -54,8 +54,8 @@ namespace AplicatieConcediuAPI.Controllers
             {
                 try
                 {
-                    Angajat a = _gameOfThronesContext.Angajats.Select(x => x).Where(x => x.Email == email && x.Parola == parola).FirstOrDefault();
-                    return a;
+                    Angajat c = _gameOfThronesContext.Angajats.Select(x => x).Where(x => x.Email == a.Email && x.Parola == a.Parola).FirstOrDefault();
+                    return Ok();
                 }
                 catch(Exception ex)
                 {
