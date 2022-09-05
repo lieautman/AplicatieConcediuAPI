@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Text.Json;
+using System.Text;
 using XD.Models;
 
 namespace AplicatieConcediuAPI.Controllers
@@ -17,13 +19,14 @@ namespace AplicatieConcediuAPI.Controllers
                 _gameOfThronesContext = gameOfThronesContext;
             }
 
-
-
-        //formular vizualizare echipe endpoint
+        //formular vizualizare echipe endpoint (pozele acestora)
         [HttpGet("GetVizualizareEchipe")]
-        public List<Echipa> GetVizualizareEchipe()
+        public string GetVizualizareEchipe()
         {
-            return new List<Echipa>();
+            List<byte[]> listaDePoze = _gameOfThronesContext.Echipas.Select(x => x.Poza).ToList();
+            string jsonString = JsonSerializer.Serialize<List<byte[]>>(listaDePoze);
+
+            return jsonString;
         }
     }
 }
