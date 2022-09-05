@@ -55,6 +55,8 @@ namespace AplicatieConcediuAPI.Controllers
                 try
                 {
                     Angajat c = _gameOfThronesContext.Angajats.Select(x => x).Where(x => x.Email == a.Email && x.Parola == a.Parola).FirstOrDefault();
+                    if(c==null)
+                        return NotFound();
                     return Ok();
                 }
                 catch(Exception ex)
