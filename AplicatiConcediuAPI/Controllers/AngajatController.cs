@@ -18,14 +18,12 @@ namespace AplicatieConcediuAPI.Controllers
         }
 
         [HttpPost("PostAngajatInregistrare")]
-        public List<Angajat> PostAngajatInregistrare(int id)
+        public string PostAngajatInregistrare(string nume, string prenume, string email, string parola, DateTime dataNasterii, string cnp, string serieSiNrCI, string numarTelefon)
         {
-            List<Angajat> a = new List<Angajat>();
-            //_gameOfThronesContext.Concedius.Include(x => x.TipConcediu).Select(x => new Concediu()
-            //{ Id = x.Id, Comentarii = x.Comentarii, TipConcediu = x.TipConcediu }).Where(x => x.TipConcediu.Id == 2).ToList();
-
-
-            return a;
+            //_gameOfThronesContext.Concedius.Include(x => x.TipConcediu).Select(x => new Concediu() { Id = x.Id, Comentarii = x.Comentarii, TipConcediu = x.TipConcediu }).Where(x => x.TipConcediu.Id == 2).ToList();
+            Angajat angajat = new Angajat(nume, prenume, email, parola, dataNasterii, cnp, serieSiNrCI, numarTelefon);
+            _gameOfThronesContext.Angajats.Add(angajat);
+            return "Inregistrare efectuata!";
         }
 
         [HttpGet("GetUserPassAutentificare")]

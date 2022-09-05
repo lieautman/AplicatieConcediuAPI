@@ -36,7 +36,7 @@ namespace XD.Controllers
         [HttpGet("AngajatiGetAll")]
         public List<Concediu> AngajatiGetAll()
         {
-            List<Concediu> a = _gameOfThronesContext.Concedius.Include(x => x.TipConcediu).Select(x => new Concediu() { Id = x.Id, Comentarii = x.Comentarii, TipConcediu = x.TipConcediu }).Where(x => x.TipConcediu.Id == 2).ToList();
+            List<Concediu> a = _gameOfThronesContext.Concedius.Include(x => x.TipConcediu).Include(x=>x.StareConcediu).Select(x => new Concediu() { Id = x.Id, Comentarii = x.Comentarii, TipConcediu = x.TipConcediu }).Where(x => x.TipConcediu.Id == 2).ToList();
 
 
             return a;
