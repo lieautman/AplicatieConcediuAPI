@@ -17,9 +17,8 @@ namespace AplicatieConcediuAPI.Controllers
             _gameOfThronesContext = gameOfThronesContext;
         }
 
-
-        [HttpGet("GetAngajati/all")]
-        public List<Angajat> GetAngajati()
+        [HttpPost("PostAngajatInregistrare")]
+        public List<Angajat> PostAngajatInregistrare(int id)
         {
             List<Angajat> a = new List<Angajat>();
             //_gameOfThronesContext.Concedius.Include(x => x.TipConcediu).Select(x => new Concediu() { Id = x.Id, Comentarii = x.Comentarii, TipConcediu = x.TipConcediu }).Where(x => x.TipConcediu.Id == 2).ToList();
@@ -27,6 +26,5 @@ namespace AplicatieConcediuAPI.Controllers
 
             return a;
         }
-
     }
 }
