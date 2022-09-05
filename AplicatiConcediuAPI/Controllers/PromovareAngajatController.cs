@@ -20,7 +20,8 @@ namespace AplicatieConcediuAPI.Controllers
         [HttpGet("PromovareAngajat")]
         public List<Angajat> PromovareAngajat()
         {
-           List<Angajat> a=  _gameOfThronesContext.Angajats.Select(x => new Angajat()).ToList();
+           List<Angajat> a= _gameOfThronesContext.Angajats.Select(x => new Angajat() { Id=x.Id,Nume=x.Nume,Prenume=x.Prenume,Email=x.Email,DataNasterii=x.DataNasterii,Numartelefon=x.Numartelefon, ManagerId=x.ManagerId}).
+                Where(x=>x.ManagerId != null).ToList();
             return a;
 
         }
