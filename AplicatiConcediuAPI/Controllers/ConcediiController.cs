@@ -51,8 +51,7 @@ namespace AplicatieConcediuAPI.Controllers
             
         }
 
-
-        }
+       
 
         [HttpPost( "UpdateStareConcediu")]
         public ActionResult UpdateStareConcediu([FromBody]Concediu concediu)
