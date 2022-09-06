@@ -51,13 +51,6 @@ namespace AplicatieConcediuAPI.Controllers
             
         }
 
-        [HttpPost( "PostConcediu")]
-        public ActionResult PostConcediu(Concediu c)
-        {
-            _gameOfThronesContext.Add(c);
-            _gameOfThronesContext.SaveChanges();
-
-            return Ok();
 
         }
 
