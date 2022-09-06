@@ -134,5 +134,12 @@ namespace AplicatieConcediuAPI.Controllers
             if (ang != null) { return Ok(); }
             return NoContent();
         }
+
+        [HttpGet("NumePrenumeAngajat")]
+        public ActionResult<Angajat> NumePrenumeAngajat(string email)
+        {
+            Angajat a = _gameOfThronesContext.Angajats.Where(x=>x.Email==email).Select(x => new Angajat() { Nume = x.Nume, Prenume = x.Prenume }).FirstOrDefault();
+            return Ok(a);
+        }
     }
 }
