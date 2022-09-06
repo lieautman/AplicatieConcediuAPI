@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Text.Json;
+using System.Text;
 using XD.Models;
 
 namespace AplicatieConcediuAPI.Controllers
@@ -43,9 +45,36 @@ namespace AplicatieConcediuAPI.Controllers
 
 
         //formular autentificare endpoint
+        //[HttpPost("GetAngajatAutentificare")]
+        //public ActionResult<Angajat> GetAngajatAutentificare(Angajat a)
+        //{
+        //    if (a.Email == null && a.Parola == null)
+        //    {
+        //        throw new  Exception("Email sau parola invalide") ;
+        //    }
+        //    else
+        //    {
+        //        try
+        //        {
+        //            Angajat c = _gameOfThronesContext.Angajats.Select(x => x).FirstOrDefault();
+        //            if (c == null)
+        //                throw new Exception("Nu avem angajat");
+
+        //            string jsonString = JsonSerializer.Serialize<Angajat>(c);
+        //        }
+
+        //        catch (Exception ex)
+        //        {
+        //            throw new Exception("Nu avem angajat");
+        //        }
+        //    }
+        //    throw new Exception("Nu avem angajat");
+        //}
+
         [HttpPost("GetAngajatAutentificare")]
         public ActionResult<Angajat> GetAngajatAutentificare(Angajat a)
         {
+            
             if (a.Email == null && a.Parola == null)
             {
                 throw new Exception("Email si parola invalide");
@@ -55,11 +84,12 @@ namespace AplicatieConcediuAPI.Controllers
                 try
                 {
                     Angajat c = _gameOfThronesContext.Angajats.Select(x => x).Where(x => x.Email == a.Email && x.Parola == a.Parola).FirstOrDefault();
-                    if(c==null)
+                    if (c == null)
                         return NotFound();
-                    return Ok();
+                    return Ok(c);
+                  
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     return NotFound();
                 }
