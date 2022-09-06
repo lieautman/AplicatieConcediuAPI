@@ -20,13 +20,12 @@ namespace AplicatieConcediuAPI.Controllers
             }
 
         //formular vizualizare echipe endpoint (pozele acestora)
-        [HttpGet("GetVizualizareEchipe")]
-        public string GetVizualizareEchipe()
+        [HttpGet("GetVizualizareEchipePoze")]
+        public ActionResult<List<byte[]>> GetVizualizareEchipePoze()
         {
             List<byte[]> listaDePoze = _gameOfThronesContext.Echipas.Select(x => x.Poza).ToList();
-            string jsonString = JsonSerializer.Serialize<List<byte[]>>(listaDePoze);
-
-            return jsonString;
+            if (listaDePoze != null) { return Ok(listaDePoze); }
+            return NoContent();
         }
     }
 }

@@ -20,7 +20,6 @@ namespace AplicatieConcediuAPI.Controllers
             _gameOfThronesContext = gameOfThronesContext;
         }
 
-
         [HttpGet( "GetConcediiSpreAprobare")]
         public List<Concediu> GetConcediiSpreAprobare()
         {
@@ -77,10 +76,5 @@ namespace AplicatieConcediuAPI.Controllers
             return Ok();
 
         }
-
-
-
-
-
     }
 }
