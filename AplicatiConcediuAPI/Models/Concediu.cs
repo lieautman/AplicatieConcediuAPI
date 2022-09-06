@@ -14,7 +14,7 @@ namespace XD.Models
         public int? StareConcediuId { get; set; }
         public int AngajatId { get; set; }
 
-        public virtual Angajat Angajat { get; set; }
+        public virtual Angajat? Angajat { get; set; }
         public virtual Angajat? Inlocuitor { get; set; }
         public virtual StareConcediu? StareConcediu { get; set; }
         public virtual TipConcediu? TipConcediu { get; set; }

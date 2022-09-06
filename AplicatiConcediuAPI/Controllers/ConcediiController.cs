@@ -62,9 +62,6 @@ namespace AplicatieConcediuAPI.Controllers
                 _gameOfThronesContext.SaveChanges();
             }
            
-
-
-
             return Ok();
 
         }
