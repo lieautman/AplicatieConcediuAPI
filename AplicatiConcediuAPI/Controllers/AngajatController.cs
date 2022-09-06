@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Text.Json;
 using XD.Models;
 
 namespace AplicatieConcediuAPI.Controllers
@@ -43,8 +45,8 @@ namespace AplicatieConcediuAPI.Controllers
 
 
         //formular autentificare endpoint
-        [HttpPost("GetAngajatAutentificare")]
-        public ActionResult<Angajat> GetAngajatAutentificare(Angajat a)
+        [HttpPost("PostAngajatAutentificare")]
+        public ActionResult<Angajat> PostAngajatAutentificare(Angajat a)
         {
             if (a.Email == null && a.Parola == null)
             {
@@ -66,5 +68,19 @@ namespace AplicatieConcediuAPI.Controllers
             }
             return Ok();
         }
+
+
+        //formular concedii vizualizare endpoint(preluare numar zile concediu ramase pentru angajat)
+        [HttpPost("PostPreluareNumarZileConcediuRamase")]
+        public ActionResult<Angajat> PostPreluareNumarZileConcediuRamase(Angajat a)
+        {
+            string email = a.Email;
+            Angajat ang = new Angajat();
+            ang = _gameOfThronesContext.Angajats.Select(x => x).Where(x=> x.Email==email).FirstOrDefault();
+            if (ang != null) { return Ok(ang); }
+            return NoContent();
+        }
     }
 }
+//.Include(x => x.Angajat)
+//.Where(x => x.Angajat.Email == a.Email)

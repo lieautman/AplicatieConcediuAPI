@@ -19,10 +19,11 @@ namespace AplicatieConcediuAPI.Controllers
 
         //formular vizualizare concedii preluare concedii
         [HttpPost("PostPreluareConcedii")]
-        public List<Concediu> PostPreluareConcedii(Angajat a)//angajat doar cu email
+        public ActionResult<List<Concediu>> PostPreluareConcedii(Angajat a)//angajat doar cu email
         {
-            List<Concediu> b = _gameOfThronesContext.Concedius.Include(x => x.Angajat).Select(x => x).Where(x=> x.Angajat.Email == a.Email).ToList();
-            return b;
+            List<Concediu> b = _gameOfThronesContext.Concedius.Include(x => x.Angajat).Select(x => new Concediu() { Id=x.Id, AngajatId=x.AngajatId, TipConcediuId = x.TipConcediuId, InlocuitorId = x.InlocuitorId , Inlocuitor = x.Inlocuitor, StareConcediuId = x.StareConcediuId , StareConcediu = x.StareConcediu, TipConcediu = x.TipConcediu, DataInceput = x.DataInceput, DataSfarsit = x.DataSfarsit, Comentarii=x.Comentarii, Angajat=x.Angajat}).Where(x => x.Angajat.Email == a.Email).ToList();
+            if (b.Count != 0) { return Ok(b); }
+            return NoContent();
         }
 
 
