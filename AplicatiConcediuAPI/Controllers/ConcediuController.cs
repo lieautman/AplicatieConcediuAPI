@@ -18,11 +18,11 @@ namespace AplicatieConcediuAPI.Controllers
         }
 
         //formular vizualizare concedii preluare concedii
-        [HttpGet("GetAngajatAutentificare")]
-        public List<Concediu> GetAngajatAutentificare(string email)
+        [HttpPost("PostPreluareConcedii")]
+        public List<Concediu> PostPreluareConcedii(Angajat a)//angajat doar cu email
         {
-            List<Concediu> a = _gameOfThronesContext.Concedius.Include(x => x.Angajat).Select(x => x).Where(X=> X.Angajat.Email == email).ToList();
-            return a;
+            List<Concediu> b = _gameOfThronesContext.Concedius.Include(x => x.Angajat).Select(x => x).Where(x=> x.Angajat.Email == a.Email).ToList();
+            return b;
         }
 
 
