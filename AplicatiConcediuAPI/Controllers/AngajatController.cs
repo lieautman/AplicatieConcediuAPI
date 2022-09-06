@@ -2,6 +2,7 @@
 using System.Text.Json;
 using System.Text;
 using XD.Models;
+using System.Linq;
 
 namespace AplicatieConcediuAPI.Controllers
 {
@@ -37,7 +38,7 @@ namespace AplicatieConcediuAPI.Controllers
                 _gameOfThronesContext.SaveChanges();
                 return "Inregistrare efectuata!";
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return ex.Message;
             }
@@ -71,10 +72,10 @@ namespace AplicatieConcediuAPI.Controllers
         //    throw new Exception("Nu avem angajat");
         //}
 
-        [HttpPost("GetAngajatAutentificare")]
-        public ActionResult<Angajat> GetAngajatAutentificare(Angajat a)
+        [HttpPost("AngajatAutentificare")]
+        public ActionResult<Angajat> AngajatAutentificare(Angajat a)
         {
-            
+
             if (a.Email == null && a.Parola == null)
             {
                 throw new Exception("Email si parola invalide");
@@ -87,7 +88,7 @@ namespace AplicatieConcediuAPI.Controllers
                     if (c == null)
                         return NotFound();
                     return Ok(c);
-                  
+
                 }
                 catch (Exception ex)
                 {
@@ -95,6 +96,14 @@ namespace AplicatieConcediuAPI.Controllers
                 }
             }
             return Ok();
+        }
+
+        [HttpGet("NumePrenumeAngajat")]
+
+        public ActionResult<Angajat>NumePrenumeAngajat()
+        {
+            Angajat a = _gameOfThronesContext.Angajats.Select(x => new Angajat() { Nume = x.Nume, Prenume = x.Prenume }).FirstOrDefault();
+            return Ok(a);
         }
     }
 }
