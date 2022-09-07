@@ -35,6 +35,12 @@ namespace AplicatieConcediuAPI.Controllers
                 angajat.Cnp = a.Cnp;
                 angajat.SeriaNumarBuletin = a.SeriaNumarBuletin;
                 angajat.Parola = a.Parola;
+                //aditionale
+                angajat.EsteAdmin = false;
+                angajat.NumarZileConceiduRamase = 21;
+                angajat.ManagerId = 0;
+                angajat.EsteAngajatCuActeInRegula = false;
+                angajat.Salariu = 0;
 
 
 
