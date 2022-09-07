@@ -257,7 +257,7 @@ namespace AplicatieConcediuAPI.Controllers
 
             if (a.Email == null && a.Parola == null)
             {
-                throw new Exception("Email si parola invalide");
+                return NotFound();
             }
             else
             {
@@ -274,7 +274,6 @@ namespace AplicatieConcediuAPI.Controllers
                     return NotFound();
                 }
             }
-            return Ok();
         }
 
 
