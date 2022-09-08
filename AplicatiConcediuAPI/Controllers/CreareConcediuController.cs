@@ -21,18 +21,56 @@ namespace AplicatieConcediuAPI.Controllers
             Angajat angajatCurent = _gameOfThronesContext.Angajats.Where(x => x.Id == AngajatId).FirstOrDefault();
             if (angajatCurent == null)
                 return null;
-            List<Angajat> _inlocuitori = _gameOfThronesContext.Angajats.Select(a => new Angajat() {Prenume = a.Prenume ,Nume = a.Nume, Id = a.Id, IdEchipa = a.IdEchipa }).Where(a => a.IdEchipa == angajatCurent.IdEchipa && a.Id != angajatCurent.Id).ToList();
+            List<Angajat> _inlocuitori = _gameOfThronesContext.Angajats.Select(a => new Angajat() { Prenume = a.Prenume, Nume = a.Nume, Id = a.Id, IdEchipa = a.IdEchipa,}).Where(a => a.IdEchipa == angajatCurent.IdEchipa && a.Id != angajatCurent.Id).ToList();
             return
                 _inlocuitori;
         }
         [HttpGet("TipuriConcediu")]
         public List<TipConcediu> GetTipuriConcediu()
         {
-            List<TipConcediu> _tipConcediu = _gameOfThronesContext.TipConcedius.Select(a => new TipConcediu() { Nume = a.Nume, Id = a.Id}).ToList();
+            List<TipConcediu> _tipConcediu = _gameOfThronesContext.TipConcedius.Select(a => new TipConcediu() { Nume = a.Nume, Id = a.Id }).ToList();
 
             return
                    _tipConcediu;
         }
+        [HttpGet("GetNrZileConcediu/{AngajatId}")]
+        public Dictionary<int, int> GetNrZileConcediu(int AngajatId)
+        {
+            // c.DataSfarsit.Subtract(c.DataInceput).Days)
+            // de scazut zilele maine
+            Dictionary<int, int> DictionarZileConcediu = new Dictionary<int, int>();
+
+            List<Concediu> ListaConcedii = _gameOfThronesContext.Concedius.Where(c => c.AngajatId == AngajatId && c.StareConcediuId == 1).ToList();
+            List<TipConcediu> TipuriConcedii = _gameOfThronesContext.TipConcedius.Select(tc => new TipConcediu() { Id = tc.Id, NrZile = tc.NrZile }).ToList();
+            foreach (Concediu c in ListaConcedii)
+            {
+                if (DictionarZileConcediu.ContainsKey(c.TipConcediuId.Value))
+                {
+                    DictionarZileConcediu[c.TipConcediuId.Value] = DictionarZileConcediu[c.TipConcediuId.Value] + c.DataSfarsit.Subtract(c.DataInceput).Days;
+                }
+                else
+                    DictionarZileConcediu.Add(c.TipConcediuId.Value, c.DataSfarsit.Subtract(c.DataInceput).Days);
+            }
+            
+
+            foreach (TipConcediu tc in TipuriConcedii)
+            {
+                if (DictionarZileConcediu.ContainsKey(tc.Id))
+                {
+                    DictionarZileConcediu[tc.Id] = tc.NrZile - DictionarZileConcediu[tc.Id];
+                }
+                else
+                    DictionarZileConcediu[tc.Id] = tc.NrZile;
+            }
+            return DictionarZileConcediu;
+        }
+    
+            //Angajat angajatCurent = _gameOfThronesContext.Angajats.Where(x => x.Email == AngajatEmail).FirstOrDefault();
+            //if (angajatCurent == null)
+            //    return null;
+            //return _gameOfThronesContext.Angajats.Select(x => new Angajat() {Id = x.Id, NumarZileConceiduRamase = x.NumarZileConceiduRamase, Email = x.Email }).Where(x => x.Id == angajatCurent.Id).FirstOrDefault();
+
+        
 
         [HttpPost("PostConcediu")]
         public ActionResult PostConcediu([FromBody] Concediu c)

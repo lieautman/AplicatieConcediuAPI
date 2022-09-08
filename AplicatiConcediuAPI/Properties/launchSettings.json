@@ -9,7 +9,7 @@
     }
   },
   "profiles": {
-    "XD": {
+    "AplicatieConcediuAPI": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": true,

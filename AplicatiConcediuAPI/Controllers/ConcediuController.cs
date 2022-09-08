@@ -17,6 +17,8 @@ namespace AplicatieConcediuAPI.Controllers
             _gameOfThronesContext = gameOfThronesContext;
         }
 
+
+        //USE: Pagina de vizualizare de concedii (Pagina_ConcediileMele)
         //formular vizualizare concedii preluare concedii
         [HttpPost("PostPreluareConcedii")]
         public ActionResult<List<Concediu>> PostPreluareConcedii(Angajat a)//angajat doar cu email
@@ -27,6 +29,57 @@ namespace AplicatieConcediuAPI.Controllers
         }
 
 
-        //formular creare concediu
+        //USE: Pagina de aprobare concedii (Aprobare_Concediu)
+        //formular de preluare concedii pentru aprobare
+        [HttpGet("GetConcediiSpreAprobare")]
+        public List<Concediu> GetConcediiSpreAprobare()
+        {
+            List<Concediu> concediuSpreAprobare = _gameOfThronesContext.Concedius.Include(tc => tc.TipConcediu)
+                .Include(angajat => angajat.Angajat)
+                .Include(inlocuitor => inlocuitor.Inlocuitor).Where(con => con.StareConcediuId == 3)
+                .Select(concediu => new Concediu
+                {
+                    Id = concediu.Id,
+                    TipConcediu = new TipConcediu { Nume = concediu.TipConcediu.Nume },
+                    DataInceput = concediu.DataInceput,
+                    DataSfarsit = concediu.DataSfarsit,
+                    Inlocuitor = new Angajat { Nume = concediu.Inlocuitor.Nume },
+                    Comentarii = concediu.Comentarii,
+                    Angajat = new Angajat { Nume = concediu.Angajat.Nume }
+                }).ToList();
+
+
+            return concediuSpreAprobare;
+        }
+        //formular de preluare concedii pentru aprobare (preluare concediu dupa id pentru a-i modifica starea)
+        [HttpGet("GetConcediuById/{id}")]
+        public Concediu GetConcediuById(int id)
+        {
+            Concediu concediu = _gameOfThronesContext.Concedius.Where(con => con.Id == id).FirstOrDefault();
+
+            if (concediu != null)
+            {
+                return concediu;
+            }
+            else
+            {
+                return new Concediu();
+            }
+
+        }
+        //formular de preluare concedii pentru aprobare (update pe stare a unui concediu dat)
+        [HttpPost("UpdateStareConcediu")]
+        public ActionResult UpdateStareConcediu([FromBody] Concediu concediu)
+        {
+            var co = _gameOfThronesContext.Concedius.Where(c => c.Id == concediu.Id).FirstOrDefault();
+            if (co != null)
+            {
+                co.StareConcediuId = concediu.StareConcediuId;
+                _gameOfThronesContext.SaveChanges();
+            }
+
+            return Ok();
+
+        }
     }
 }

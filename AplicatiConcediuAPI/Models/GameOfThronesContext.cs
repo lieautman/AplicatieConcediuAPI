@@ -155,6 +155,9 @@ namespace XD.Models
                 entity.Property(e => e.Nume)
                     .HasMaxLength(50)
                     .IsUnicode(false);
+
+                entity.Property(e => e.NrZile);
+                    
             });
 
             OnModelCreatingPartial(modelBuilder);
