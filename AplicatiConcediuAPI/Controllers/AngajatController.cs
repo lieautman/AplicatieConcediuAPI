@@ -20,6 +20,24 @@ namespace AplicatieConcediuAPI.Controllers
             _gameOfThronesContext = gameOfThronesContext;
         }
 
+        [HttpPost("UpdateAprobareAngajare")]
+        public ActionResult UpdateAprobareAngajare([FromBody] Angajat angajat)
+        {
+            var a = _gameOfThronesContext.Angajats.Where(a => a.Id == angajat.Id).FirstOrDefault();
+            if (a != null)
+            {
+                a.DataAngajarii = angajat.DataAngajarii;
+                a.NumarZileConceiduRamase = angajat.NumarZileConceiduRamase;
+                a.Salariu = angajat.Salariu;
+                a.Manager = angajat.Manager;
+               
+                _gameOfThronesContext.SaveChanges();
+            }
+
+            return Ok();
+
+        }
+
         //formular inregistrare endpoint
         [HttpPost("PostAngajatInregistrare")]
         public string PostAngajatInregistrare([FromBody] Angajat a)
