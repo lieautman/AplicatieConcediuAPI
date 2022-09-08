@@ -38,7 +38,7 @@ namespace AplicatieConcediuAPI.Controllers
                 //aditionale
                 angajat.EsteAdmin = false;
                 angajat.NumarZileConceiduRamase = 21;
-                angajat.ManagerId = 0;
+                angajat.ManagerId = 1;
                 angajat.EsteAngajatCuActeInRegula = false;
                 angajat.Salariu = 0;
 
