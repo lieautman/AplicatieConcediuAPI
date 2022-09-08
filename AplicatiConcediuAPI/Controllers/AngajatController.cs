@@ -388,7 +388,7 @@ namespace AplicatieConcediuAPI.Controllers
         public ActionResult<List<Angajat>> GetPreluareDateDespreTotiAngajatii()
         {
             List<Angajat> conc = new List<Angajat>();
-            conc = _gameOfThronesContext.Angajats.Select(x => x).ToList();
+            conc = _gameOfThronesContext.Angajats.Include(x=>x.Manager).Select(x => x).ToList();
             if (conc != null) { return Ok(conc); }
             return NoContent();
         }
@@ -396,7 +396,7 @@ namespace AplicatieConcediuAPI.Controllers
         public ActionResult<List<Angajat>> PostPreluareDateDespreTotiAngajatiiDinEchipa(Angajat a)
         {
             List<Angajat> conc = new List<Angajat>();
-            conc = _gameOfThronesContext.Angajats.Select(x => x).Where(x => x.IdEchipa == a.IdEchipa).ToList();
+            conc = _gameOfThronesContext.Angajats.Include(x=>x.Manager).Select(x => x).Where(x => x.IdEchipa == a.IdEchipa).ToList();
             if (conc != null) { return Ok(conc); }
             return NoContent();
         }
