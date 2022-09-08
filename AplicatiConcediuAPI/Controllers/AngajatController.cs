@@ -338,6 +338,12 @@ namespace AplicatieConcediuAPI.Controllers
             return _gameOfThronesContext.Angajats.Where(x => x.ManagerId == null).ToList();
 
         }
+        [HttpGet("GetEchipe")]
+        public List<Echipa> GetEchipe()
+        {
+            return _gameOfThronesContext.Echipas.Select(x => x).ToList();
+
+        }
 
         [HttpDelete("StergereAngajat")]
         public ActionResult<Angajat> StergereAngajat([FromBody]Angajat a)

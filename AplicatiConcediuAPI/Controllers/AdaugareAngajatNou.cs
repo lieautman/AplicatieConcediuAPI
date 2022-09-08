@@ -54,7 +54,7 @@ namespace AplicatieConcediuAPI.Controllers
                 string SerieNrBuletin = a.SeriaNumarBuletin;
                 string parola = a.Parola;
                 
-                //int numarzileconcediu = (Int32)a.NumarZileConceiduRamase;
+                int numarzileconcediu = (int)a.NumarZileConceiduRamase;
                 int managerid = (int)a.ManagerId;
                 bool esteangajatcuacteinregula = (bool)a.EsteAngajatCuActeInRegula;
                 float salariu = (float)a.Salariu;
