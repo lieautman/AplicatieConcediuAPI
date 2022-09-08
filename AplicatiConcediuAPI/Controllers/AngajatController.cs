@@ -29,7 +29,8 @@ namespace AplicatieConcediuAPI.Controllers
                 a.DataAngajarii = angajat.DataAngajarii;
                 a.NumarZileConceiduRamase = angajat.NumarZileConceiduRamase;
                 a.Salariu = angajat.Salariu;
-                a.Manager = angajat.Manager;
+                a.ManagerId = angajat.ManagerId;
+                a.EsteAngajatCuActeInRegula = angajat.EsteAngajatCuActeInRegula;
                
                 _gameOfThronesContext.SaveChanges();
             }
@@ -339,10 +340,10 @@ namespace AplicatieConcediuAPI.Controllers
 
         }
 
-        [HttpDelete("StergereAngajat")]
-        public ActionResult<Angajat> StergereAngajat([FromBody]Angajat a)
+        [HttpDelete("StergereAngajat/{email}")]
+        public ActionResult<Angajat> StergereAngajat(string email)
         {
-            var ang = _gameOfThronesContext.Angajats.Where(x => x.Id == a.Id).FirstOrDefault();
+            var ang = _gameOfThronesContext.Angajats.Where(x => x.Email == email).FirstOrDefault();
 
             if(ang!= null)
             {
