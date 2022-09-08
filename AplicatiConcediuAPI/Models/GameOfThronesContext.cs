@@ -75,7 +75,7 @@ namespace XD.Models
                     .HasMaxLength(8)
                     .IsUnicode(false);
 
-                entity.HasOne(d => d.Echipa)
+                entity.HasOne(d => d.IdEchipaNavigation)
                     .WithMany(p => p.Angajats)
                     .HasForeignKey(d => d.IdEchipa)
                     .HasConstraintName("FK__Angajat__IdEchip__3B60C8C7");

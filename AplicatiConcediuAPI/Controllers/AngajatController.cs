@@ -407,5 +407,16 @@ namespace AplicatieConcediuAPI.Controllers
             if (conc != null) { return Ok(conc); }
             return NoContent();
         }
+
+        //USE: Pagina promovare angajajti (promovare)
+        //formular promovare angajati, formare echipa, preluare ang dupa email
+        [HttpPost("PreluareAngajatDupaEmail")]
+        public ActionResult<Angajat> PreluareAngajatDupaEmail(Angajat a)
+        {
+            Angajat angj = new Angajat();
+            angj = _gameOfThronesContext.Angajats.Select(x => x).Where(x => x.Email == a.Email).FirstOrDefault();
+            if (angj != null) { return Ok(angj); }
+            return NoContent();
+        }
     }
 }

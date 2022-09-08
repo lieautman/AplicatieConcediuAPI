@@ -22,7 +22,7 @@ namespace AplicatieConcediuAPI.Controllers
         [HttpGet("PromovareAngajat")]
         public string PromovareAngajat()
         {
-            List<Angajat> a = _gameOfThronesContext.Angajats.Include(x => x.Echipa).Select(x => new Angajat() { Nume = x.Nume, Prenume = x.Prenume, Email = x.Email, DataNasterii = x.DataNasterii, Numartelefon = x.Numartelefon, Echipa = x.Echipa, IdEchipa = x.IdEchipa }).
+            List<Angajat> a = _gameOfThronesContext.Angajats.Include(x => x.IdEchipaNavigation).Select(x => new Angajat() { Nume = x.Nume, Prenume = x.Prenume, Email = x.Email, DataNasterii = x.DataNasterii, Numartelefon = x.Numartelefon, IdEchipaNavigation = x.IdEchipaNavigation, IdEchipa = x.IdEchipa }).
               ToList();
             string jsonString = JsonSerializer.Serialize<List<Angajat>>(a);
             return jsonString;
@@ -32,14 +32,14 @@ namespace AplicatieConcediuAPI.Controllers
         [HttpPost("UpdateManagerIdEchipaId")]
         public ActionResult<Angajat> UpdateManagerIdEchipaId([FromBody]List<Angajat> listaAngajati)
         {
-            Angajat an = _gameOfThronesContext.Angajats.Select(x=> x).Where(x => x.Email == a.Email).FirstOrDefault();
-            if (an != null)
-            {
-                an.ManagerId = null;
-                _gameOfThronesContext.SaveChanges();
-            }
+            // Angajat an = _gameOfThronesContext.Angajats.Select(x=> x).Where(x => x.Email == listaAngajati.Email).FirstOrDefault();
+            //if (an != null)
+            //{
+            //    an.ManagerId = null;
+            //    _gameOfThronesContext.SaveChanges();
+            //}
+            //return Ok();
             return Ok();
-
         }
 
 
