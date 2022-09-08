@@ -75,7 +75,7 @@ namespace XD.Models
                     .HasMaxLength(8)
                     .IsUnicode(false);
 
-                entity.HasOne(d => d.IdEchipaNavigation)
+                entity.HasOne(d => d.Echipa)
                     .WithMany(p => p.Angajats)
                     .HasForeignKey(d => d.IdEchipa)
                     .HasConstraintName("FK__Angajat__IdEchip__3B60C8C7");
@@ -124,6 +124,9 @@ namespace XD.Models
                     .IsUnicode(false);
 
                 entity.Property(e => e.Nume)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+                entity.Property(e => e.Poza)
                     .HasMaxLength(100)
                     .IsUnicode(false);
             });

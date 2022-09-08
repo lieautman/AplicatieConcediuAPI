@@ -30,7 +30,7 @@ namespace XD.Models
         public bool? EsteAngajatCuActeInRegula { get; set; }
         public int? IdEchipa { get; set; }
 
-        public virtual Echipa? IdEchipaNavigation { get; set; }
+        public virtual Echipa? Echipa { get; set; }
         public virtual Angajat? Manager { get; set; }
         public virtual ICollection<Concediu> ConcediuAngajats { get; set; }
         public virtual ICollection<Concediu> ConcediuInlocuitors { get; set; }
