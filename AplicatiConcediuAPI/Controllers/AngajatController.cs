@@ -20,6 +20,8 @@ namespace AplicatieConcediuAPI.Controllers
             _gameOfThronesContext = gameOfThronesContext;
         }
 
+
+        //USE: Pagini start (Pagina_Inregistrare + Pagina_Autentificare)
         //formular inregistrare endpoint
         [HttpPost("PostAngajatInregistrare")]
         public string PostAngajatInregistrare([FromBody] Angajat a)
@@ -249,7 +251,6 @@ namespace AplicatieConcediuAPI.Controllers
                 return ex.Message;
             }
         }
-
         //formular autentificare endpoint
         [HttpPost("AngajatAutentificare")]
         public ActionResult<Angajat> AngajatAutentificare([FromBody] Angajat a)
@@ -277,18 +278,8 @@ namespace AplicatieConcediuAPI.Controllers
         }
 
 
-        //formular concedii vizualizare endpoint(preluare numar zile concediu ramase pentru angajat)
-        [HttpPost("PostPreluareNumarZileConcediuRamase")]
-        public ActionResult<Angajat> PostPreluareNumarZileConcediuRamase(Angajat a)
-        {
-            string email = a.Email;
-            Angajat ang = new Angajat();
-            ang = _gameOfThronesContext.Angajats.Select(x => x).Where(x=> x.Email==email).FirstOrDefault();
-            if (ang != null) { return Ok(ang); }
-            return NoContent();
-        }
 
-
+        //USE: Pagina profil (Pagina_Profil_Angajat)
         //formular afisare profil angajat preluare poza
         [HttpPost("PostPreluarePoza")]
         public ActionResult<Angajat> PostPreluarePoza(Angajat a)
@@ -299,7 +290,6 @@ namespace AplicatieConcediuAPI.Controllers
             if (ang != null) { return Ok(ang); }
             return NoContent();
         }
-
         //formular afisare profil angajat incarcare poza
         [HttpPost("PostIncarcarePoza")]
         public ActionResult<Angajat> PostIncarcarePoza(Angajat a)
@@ -312,7 +302,36 @@ namespace AplicatieConcediuAPI.Controllers
             if (ang != null) { return Ok(); }
             return NoContent();
         }
+        //formular afisare profil preluare date angajat
+        [HttpGet("GetDateAngajat/{AngajatEmail}")]
+        public Angajat GetDateAngajat(string AngajatEmail)
+        {
+            return (Angajat)_gameOfThronesContext.Angajats.Where(x => x.Email == AngajatEmail).FirstOrDefault();
 
+        }
+
+
+        //USE: Pagina toti angajatii (TotiAngajatii)
+        //formular toti angajatii preluare date angajati
+
+
+
+
+        //USE: Pagina vizualizare concedii (Pagina_ConcediileMele)
+        //formular concedii vizualizare endpoint(preluare numar zile concediu ramase pentru angajat)
+        [HttpPost("PostPreluareNumarZileConcediuRamase")]
+        public ActionResult<Angajat> PostPreluareNumarZileConcediuRamase(Angajat a)
+        {
+            string email = a.Email;
+            Angajat ang = new Angajat();
+            ang = _gameOfThronesContext.Angajats.Select(x => x).Where(x=> x.Email==email).FirstOrDefault();
+            if (ang != null) { return Ok(ang); }
+            return NoContent();
+        }
+
+
+
+        //USE: Pagina promovare angajat (Promovare_Angajat)
         [HttpGet("NumePrenumeAngajat")]
         public ActionResult<Angajat> NumePrenumeAngajat(string email)
         {
