@@ -4,6 +4,7 @@ using System.Text;
 using XD.Models;
 using System.Linq;
 using System.Text.RegularExpressions;
+using Microsoft.EntityFrameworkCore;
 
 namespace AplicatieConcediuAPI.Controllers
 {
@@ -29,7 +30,8 @@ namespace AplicatieConcediuAPI.Controllers
                 a.DataAngajarii = angajat.DataAngajarii;
                 a.NumarZileConceiduRamase = angajat.NumarZileConceiduRamase;
                 a.Salariu = angajat.Salariu;
-                a.Manager = angajat.Manager;
+                a.ManagerId = angajat.ManagerId;
+                a.EsteAngajatCuActeInRegula = angajat.EsteAngajatCuActeInRegula;
                
                 _gameOfThronesContext.SaveChanges();
             }
@@ -296,7 +298,6 @@ namespace AplicatieConcediuAPI.Controllers
         }
 
 
-
         //USE: Pagina profil (Pagina_Profil_Angajat)
         //formular afisare profil angajat preluare poza
         [HttpPost("PostPreluarePoza")]
@@ -345,10 +346,10 @@ namespace AplicatieConcediuAPI.Controllers
 
         }
 
-        [HttpDelete("StergereAngajat")]
-        public ActionResult<Angajat> StergereAngajat([FromBody]Angajat a)
+        [HttpDelete("StergereAngajat/{email}")]
+        public ActionResult<Angajat> StergereAngajat(string email)
         {
-            var ang = _gameOfThronesContext.Angajats.Where(x => x.Id == a.Id).FirstOrDefault();
+            var ang = _gameOfThronesContext.Angajats.Where(x => x.Email == email).FirstOrDefault();
 
             if(ang!= null)
             {
@@ -361,12 +362,6 @@ namespace AplicatieConcediuAPI.Controllers
             return Ok();
 
         }
-
-
-
-
-        //USE: Pagina toti angajatii (TotiAngajatii)
-        //formular toti angajatii preluare date angajati
 
 
 
@@ -384,13 +379,33 @@ namespace AplicatieConcediuAPI.Controllers
         }
 
 
-
         //USE: Pagina promovare angajat (Promovare_Angajat)
+        //formular promovare angajat, afisare nume si prenume in label
         [HttpGet("NumePrenumeAngajat")]
         public ActionResult<Angajat> NumePrenumeAngajat(string email)
         {
             Angajat a = _gameOfThronesContext.Angajats.Where(x=>x.Email==email).Select(x => new Angajat() { Nume = x.Nume, Prenume = x.Prenume }).FirstOrDefault();
             return Ok(a);
+        }
+
+
+        //USE: Pagina toti angajatii (TotiAngajatii)
+        //formular toti angajatii preluare date angajati
+        [HttpGet("GetPreluareDateDespreTotiAngajatii")]
+        public ActionResult<List<Angajat>> GetPreluareDateDespreTotiAngajatii()
+        {
+            List<Angajat> conc = new List<Angajat>();
+            conc = _gameOfThronesContext.Angajats.Include(x=>x.Manager).Select(x => x).ToList();
+            if (conc != null) { return Ok(conc); }
+            return NoContent();
+        }
+        [HttpPost("PostPreluareDateDespreTotiAngajatiiDinEchipa")]
+        public ActionResult<List<Angajat>> PostPreluareDateDespreTotiAngajatiiDinEchipa(Angajat a)
+        {
+            List<Angajat> conc = new List<Angajat>();
+            conc = _gameOfThronesContext.Angajats.Include(x=>x.Manager).Select(x => x).Where(x => x.IdEchipa == a.IdEchipa).ToList();
+            if (conc != null) { return Ok(conc); }
+            return NoContent();
         }
     }
 }
