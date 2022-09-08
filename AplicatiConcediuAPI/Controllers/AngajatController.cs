@@ -4,6 +4,7 @@ using System.Text;
 using XD.Models;
 using System.Linq;
 using System.Text.RegularExpressions;
+using Microsoft.EntityFrameworkCore;
 
 namespace AplicatieConcediuAPI.Controllers
 {
@@ -296,7 +297,6 @@ namespace AplicatieConcediuAPI.Controllers
         }
 
 
-
         //USE: Pagina profil (Pagina_Profil_Angajat)
         //formular afisare profil angajat preluare poza
         [HttpPost("PostPreluarePoza")]
@@ -329,12 +329,6 @@ namespace AplicatieConcediuAPI.Controllers
         }
 
 
-        //USE: Pagina toti angajatii (TotiAngajatii)
-        //formular toti angajatii preluare date angajati
-
-
-
-
         //USE: Pagina vizualizare concedii (Pagina_ConcediileMele)
         //formular concedii vizualizare endpoint(preluare numar zile concediu ramase pentru angajat)
         [HttpPost("PostPreluareNumarZileConcediuRamase")]
@@ -348,13 +342,33 @@ namespace AplicatieConcediuAPI.Controllers
         }
 
 
-
         //USE: Pagina promovare angajat (Promovare_Angajat)
+        //formular promovare angajat, afisare nume si prenume in label
         [HttpGet("NumePrenumeAngajat")]
         public ActionResult<Angajat> NumePrenumeAngajat(string email)
         {
             Angajat a = _gameOfThronesContext.Angajats.Where(x=>x.Email==email).Select(x => new Angajat() { Nume = x.Nume, Prenume = x.Prenume }).FirstOrDefault();
             return Ok(a);
+        }
+
+
+        //USE: Pagina toti angajatii (TotiAngajatii)
+        //formular toti angajatii preluare date angajati
+        [HttpGet("GetPreluareDateDespreTotiAngajatii")]
+        public ActionResult<List<Angajat>> GetPreluareDateDespreTotiAngajatii()
+        {
+            List<Angajat> conc = new List<Angajat>();
+            conc = _gameOfThronesContext.Angajats.Select(x => x).ToList();
+            if (conc != null) { return Ok(conc); }
+            return NoContent();
+        }
+        [HttpPost("PostPreluareDateDespreTotiAngajatiiDinEchipa")]
+        public ActionResult<List<Angajat>> PostPreluareDateDespreTotiAngajatiiDinEchipa(Angajat a)
+        {
+            List<Angajat> conc = new List<Angajat>();
+            conc = _gameOfThronesContext.Angajats.Select(x => x).Where(x => x.IdEchipa == a.IdEchipa).ToList();
+            if (conc != null) { return Ok(conc); }
+            return NoContent();
         }
     }
 }
