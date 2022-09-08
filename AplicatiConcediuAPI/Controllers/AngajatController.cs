@@ -320,6 +320,8 @@ namespace AplicatieConcediuAPI.Controllers
             if (ang != null) { return Ok(); }
             return NoContent();
         }
+
+
         //formular afisare profil preluare date angajat
         [HttpGet("GetDateAngajat/{AngajatEmail}")]
         public Angajat GetDateAngajat(string AngajatEmail)
@@ -327,6 +329,34 @@ namespace AplicatieConcediuAPI.Controllers
             return (Angajat)_gameOfThronesContext.Angajats.Where(x => x.Email == AngajatEmail).FirstOrDefault();
 
         }
+
+
+
+        [HttpGet("GetManageri")]
+        public List<Angajat> GetManageri()
+        {
+            return _gameOfThronesContext.Angajats.Where(x => x.ManagerId == null).ToList();
+
+        }
+
+        [HttpDelete("StergereAngajat")]
+        public ActionResult<Angajat> StergereAngajat([FromBody]Angajat a)
+        {
+            var ang = _gameOfThronesContext.Angajats.Where(x => x.Id == a.Id).FirstOrDefault();
+
+            if(ang!= null)
+            {
+
+                _gameOfThronesContext.Angajats.Remove(ang);
+                _gameOfThronesContext.SaveChanges();
+
+            }
+            
+            return Ok();
+
+        }
+
+
 
 
         //USE: Pagina vizualizare concedii (Pagina_ConcediileMele)
