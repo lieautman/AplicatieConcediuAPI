@@ -201,6 +201,32 @@ namespace AplicatieConcediuAPI.Controllers
             //verificare validitate date campuri
             if (!isError)
             {
+                //cnp si data nasterii corespund
+                {
+                    //cnp si data nasterii corespund
+                    {
+                        string cnpDataNastere = cnp.Substring(1, 6);
+                        string dataNastereFormatataString = data_nastere.ToString();
+                        int index = dataNastereFormatataString.IndexOf('/', dataNastereFormatataString.IndexOf('/') + 1);
+                        string luna = dataNastereFormatataString.Substring(0, dataNastereFormatataString.IndexOf("/"));
+                        string zi = dataNastereFormatataString.Substring(dataNastereFormatataString.IndexOf("/") + 1, index - dataNastereFormatataString.IndexOf("/") - 1);
+                        string an = dataNastereFormatataString.Substring(index + 1 + 2, dataNastereFormatataString.IndexOf(" ") - index - 3);
+
+                        if (zi.Length == 1)
+                        {
+                            zi = "0" + zi;
+                        }
+                        if (luna.Length == 1)
+                        {
+                            luna = "0" + luna;
+                        }
+
+                        if (cnpDataNastere != an + luna + zi)
+                        {
+                            isError = true;
+                        }
+                    }
+                }
                 const string reTelefon = "^[0-9]*$";
                 if (!Regex.Match(nr_telefon, reTelefon, RegexOptions.IgnoreCase).Success)
                 {
