@@ -389,8 +389,6 @@ namespace AplicatieConcediuAPI.Controllers
             return _gameOfThronesContext.Angajats.Where(x => x.Email == AngajatEmail).FirstOrDefault();
         }
 
-
-
         [HttpGet("GetManageri")]
         public List<Angajat> GetManageri()
         {
