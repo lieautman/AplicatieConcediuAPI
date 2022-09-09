@@ -28,7 +28,7 @@ namespace AplicatieConcediuAPI.Controllers
             if (a != null)
             {
                 a.DataAngajarii = angajat.DataAngajarii;
-                a.NumarZileConceiduRamase = angajat.NumarZileConceiduRamase;
+                //a.NumarZileConceiduRamase = angajat.NumarZileConceiduRamase;
                 a.Salariu = angajat.Salariu;
                 a.ManagerId = angajat.ManagerId;
                 a.EsteAngajatCuActeInRegula = angajat.EsteAngajatCuActeInRegula;
