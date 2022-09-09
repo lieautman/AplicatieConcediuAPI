@@ -337,6 +337,16 @@ namespace AplicatieConcediuAPI.Controllers
 
 
         //USE: Pagina profil (Pagina_Profil_Angajat)
+        //formular afisare profil angajat preluare poza
+        [HttpPost("PostPreluarePoza")]
+        public ActionResult<Angajat> PostPreluarePoza(Angajat a)
+        {
+            string email = a.Email;
+            Angajat ang = new Angajat();
+            ang = _gameOfThronesContext.Angajats.Select(x => x).Where(x => x.Email == email).FirstOrDefault();
+            if (ang != null) { return Ok(ang); }
+            return NoContent();
+        }
         //formular afisare profil angajat incarcare poza
         [HttpPost("PostIncarcarePoza")]
         public ActionResult<Angajat> PostIncarcarePoza(Angajat a)
