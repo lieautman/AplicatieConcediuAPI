@@ -331,8 +331,6 @@ namespace AplicatieConcediuAPI.Controllers
 
         }
 
-
-
         [HttpGet("GetManageri")]
         public List<Angajat> GetManageri()
         {
