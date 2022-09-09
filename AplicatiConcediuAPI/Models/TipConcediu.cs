@@ -15,5 +15,6 @@ namespace XD.Models
         public string Nume { get; set; } = null!;
         public string Cod { get; set; } = null!;
         public virtual ICollection<Concediu> Concedius { get; set; }
-    }
+        public int NrZile { get; set; }
+    }   
 }

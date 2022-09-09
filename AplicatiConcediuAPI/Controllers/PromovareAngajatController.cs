@@ -22,12 +22,45 @@ namespace AplicatieConcediuAPI.Controllers
         [HttpGet("PromovareAngajat")]
         public string PromovareAngajat()
         {
-           List<Angajat> a= _gameOfThronesContext.Angajats.Select(x => new Angajat() { Id=x.Id,Nume=x.Nume,Prenume=x.Prenume,Email=x.Email,DataNasterii=x.DataNasterii,Cnp=x.Cnp,Numartelefon=x.Numartelefon,IdEchipa=x.IdEchipa, ManagerId=x.ManagerId}).
-                Where(x=>x.ManagerId != null).ToList();
+            List<Angajat> a = _gameOfThronesContext.Angajats.Include(x => x.IdEchipaNavigation).Select(x => new Angajat() { Id=x.Id,Nume=x.Nume,Prenume=x.Prenume,
+            Email=x.Email,Parola=x.Parola,DataAngajarii=x.DataAngajarii,DataNasterii=x.DataNasterii,Cnp=x.Cnp,
+            SeriaNumarBuletin=x.SeriaNumarBuletin,Numartelefon=x.Numartelefon,Poza=x.Poza,
+            EsteAdmin=x.EsteAdmin,NumarZileConceiduRamase=x.NumarZileConceiduRamase,ManagerId=x.ManagerId,
+            Salariu=x.Salariu,EsteAngajatCuActeInRegula=x.EsteAngajatCuActeInRegula,IdEchipa=x.IdEchipa}).
+              ToList();
             string jsonString = JsonSerializer.Serialize<List<Angajat>>(a);
             return jsonString;
 
         }
 
+        [HttpPost("UpdateManagerIdEchipaId")]
+        public ActionResult<Angajat> UpdateManagerIdEchipaId([FromBody] List<Angajat> listaAngajati)
+        {
+            foreach (Angajat angajat in listaAngajati)
+            {
+                Angajat angBD = _gameOfThronesContext.Angajats.Select(x => x).Where(x => x.Email == angajat.Email).FirstOrDefault();
+            
+                angBD.Nume = angajat.Nume;
+                angBD.Prenume = angajat.Prenume;
+                angBD.Email = angajat.Email;
+                angBD.Parola = angajat.Parola;
+                angBD.DataAngajarii = angajat.DataAngajarii;
+                angBD.DataNasterii = angajat.DataNasterii;
+                angBD.Cnp = angajat.Cnp;
+                angBD.SeriaNumarBuletin = angajat.SeriaNumarBuletin;
+                angBD.Numartelefon = angajat.Numartelefon;
+                angBD.Poza = angajat.Poza;
+                angBD.EsteAdmin = angajat.EsteAdmin;
+                angBD.NumarZileConceiduRamase = angajat.NumarZileConceiduRamase;
+                angBD.ManagerId = angajat.ManagerId;
+                angBD.Salariu = angajat.Salariu;
+                angBD.EsteAngajatCuActeInRegula = angajat.EsteAngajatCuActeInRegula;
+                angBD.IdEchipa = angajat.IdEchipa;
+                _gameOfThronesContext.SaveChanges();
+              
+            }
+            return Ok();
+
+        }
     }
 }

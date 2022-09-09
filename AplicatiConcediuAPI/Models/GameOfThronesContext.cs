@@ -126,6 +126,9 @@ namespace XD.Models
                 entity.Property(e => e.Nume)
                     .HasMaxLength(100)
                     .IsUnicode(false);
+                entity.Property(e => e.Poza)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
             });
 
             modelBuilder.Entity<StareConcediu>(entity =>
@@ -152,6 +155,9 @@ namespace XD.Models
                 entity.Property(e => e.Nume)
                     .HasMaxLength(50)
                     .IsUnicode(false);
+
+                entity.Property(e => e.NrZile);
+                    
             });
 
             OnModelCreatingPartial(modelBuilder);

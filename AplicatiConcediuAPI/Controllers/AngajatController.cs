@@ -28,7 +28,7 @@ namespace AplicatieConcediuAPI.Controllers
             if (a != null)
             {
                 a.DataAngajarii = angajat.DataAngajarii;
-                a.NumarZileConceiduRamase = angajat.NumarZileConceiduRamase;
+                //a.NumarZileConceiduRamase = angajat.NumarZileConceiduRamase;
                 a.Salariu = angajat.Salariu;
                 a.ManagerId = angajat.ManagerId;
                 a.EsteAngajatCuActeInRegula = angajat.EsteAngajatCuActeInRegula;
@@ -393,7 +393,7 @@ namespace AplicatieConcediuAPI.Controllers
         public ActionResult<List<Angajat>> GetPreluareDateDespreTotiAngajatii()
         {
             List<Angajat> conc = new List<Angajat>();
-            conc = _gameOfThronesContext.Angajats.Include(x=>x.Manager).Select(x => x).ToList();
+            conc = _gameOfThronesContext.Angajats.Include(x=>x.Manager).Include(x=>x.IdEchipaNavigation).Select(x => x).ToList();
             if (conc != null) { return Ok(conc); }
             return NoContent();
         }
@@ -401,8 +401,19 @@ namespace AplicatieConcediuAPI.Controllers
         public ActionResult<List<Angajat>> PostPreluareDateDespreTotiAngajatiiDinEchipa(Angajat a)
         {
             List<Angajat> conc = new List<Angajat>();
-            conc = _gameOfThronesContext.Angajats.Include(x=>x.Manager).Select(x => x).Where(x => x.IdEchipa == a.IdEchipa).ToList();
+            conc = _gameOfThronesContext.Angajats.Include(x=>x.Manager).Include(x => x.IdEchipaNavigation).Select(x => x).Where(x => x.IdEchipa == a.IdEchipa).ToList();
             if (conc != null) { return Ok(conc); }
+            return NoContent();
+        }
+
+        //USE: Pagina promovare angajajti (promovare)
+        //formular promovare angajati, formare echipa, preluare ang dupa email
+        [HttpPost("PreluareAngajatDupaEmail")]
+        public ActionResult<Angajat> PreluareAngajatDupaEmail(Angajat a)
+        {
+            Angajat angj = new Angajat();
+            angj = _gameOfThronesContext.Angajats.Select(x => x).Where(x => x.Email == a.Email).FirstOrDefault();
+            if (angj != null) { return Ok(angj); }
             return NoContent();
         }
     }
