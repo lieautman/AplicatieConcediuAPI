@@ -47,5 +47,17 @@ namespace AplicatieConcediuAPI.Controllers
             return null;
          
         }
+        //update poza echipa in functie de id echipa
+        [HttpPost("UpdatePozaEchipa")]
+        public ActionResult<Echipa> UpdatePozaEchipa(Echipa echipa)
+        {
+            int id = echipa.Id;
+            Echipa e = new Echipa();
+            e = _gameOfThronesContext.Echipas.Select(x => x).Where(x =>x.Id==id).FirstOrDefault();
+            e.Poza = echipa.Poza;
+            _gameOfThronesContext.SaveChanges();
+            if (e != null) { return Ok(); }
+            return NoContent();
+        }
     }
 }
