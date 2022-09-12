@@ -270,7 +270,7 @@ namespace AplicatieConcediuAPI.Controllers
                 angajat.Parola = a.Parola;
                 //aditionale
                 angajat.EsteAdmin = false;
-                angajat.NumarZileConceiduRamase = 21;
+                //angajat.NumarZileConceiduRamase = 21;
                 angajat.ManagerId = 1;
                 angajat.EsteAngajatCuActeInRegula = false;
                 angajat.Salariu = 0;

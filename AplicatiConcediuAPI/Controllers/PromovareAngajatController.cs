@@ -25,7 +25,7 @@ namespace AplicatieConcediuAPI.Controllers
             List<Angajat> a = _gameOfThronesContext.Angajats.Include(x => x.IdEchipaNavigation).Select(x => new Angajat() { Id=x.Id,Nume=x.Nume,Prenume=x.Prenume,
             Email=x.Email,Parola=x.Parola,DataAngajarii=x.DataAngajarii,DataNasterii=x.DataNasterii,Cnp=x.Cnp,
             SeriaNumarBuletin=x.SeriaNumarBuletin,Numartelefon=x.Numartelefon,Poza=x.Poza,
-            EsteAdmin=x.EsteAdmin,NumarZileConceiduRamase=x.NumarZileConceiduRamase,ManagerId=x.ManagerId,
+            EsteAdmin=x.EsteAdmin,ManagerId=x.ManagerId,
             Salariu=x.Salariu,EsteAngajatCuActeInRegula=x.EsteAngajatCuActeInRegula,IdEchipa=x.IdEchipa}).
               ToList();
             string jsonString = JsonSerializer.Serialize<List<Angajat>>(a);
@@ -51,7 +51,7 @@ namespace AplicatieConcediuAPI.Controllers
                 angBD.Numartelefon = angajat.Numartelefon;
                 angBD.Poza = angajat.Poza;
                 angBD.EsteAdmin = angajat.EsteAdmin;
-                angBD.NumarZileConceiduRamase = angajat.NumarZileConceiduRamase;
+                //angBD.NumarZileConceiduRamase = angajat.NumarZileConceiduRamase;
                 angBD.ManagerId = angajat.ManagerId;
                 angBD.Salariu = angajat.Salariu;
                 angBD.EsteAngajatCuActeInRegula = angajat.EsteAngajatCuActeInRegula;

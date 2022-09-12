@@ -24,7 +24,6 @@ namespace XD.Models
         public string? Numartelefon { get; set; }
         public byte[]? Poza { get; set; }
         public bool? EsteAdmin { get; set; }
-        public int NumarZileConceiduRamase { get; set; }
         public int? ManagerId { get; set; }
         public decimal? Salariu { get; set; }
         public bool? EsteAngajatCuActeInRegula { get; set; }
