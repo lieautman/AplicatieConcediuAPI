@@ -505,7 +505,10 @@ namespace AplicatieConcediuAPI.Controllers
             {
                 if (index2 > conc.Count)
                     index2 = conc.Count;
-                return Ok(conc.Count/(index2-index1));
+                int nrPag = conc.Count / (index2 - index1);
+                if (conc.Count % (index2 - index1) > 0)
+                    nrPag++;
+                return Ok(nrPag);
             }
             return NoContent();
         }
@@ -522,7 +525,7 @@ namespace AplicatieConcediuAPI.Controllers
             }
             return NoContent();
         }
-        [HttpGet("PostPreluareNumarDePaginiDinEchipa/{index1}/{index2}")]
+        [HttpPost("PostPreluareNumarDePaginiDinEchipa/{index1}/{index2}")]
         public ActionResult<int> PostPreluareNumarDePaginiDinEchipa([FromBody] Angajat a,int index1, int index2)
         {
             List<Angajat> conc = new List<Angajat>();
@@ -531,7 +534,10 @@ namespace AplicatieConcediuAPI.Controllers
             {
                 if (index2 > conc.Count)
                     index2 = conc.Count;
-                return Ok(conc.Count / (index2 - index1));
+                int nrPag = conc.Count / (index2 - index1);
+                if (conc.Count % (index2 - index1) > 0)
+                    nrPag++;
+                return Ok(nrPag);
             }
             return NoContent();
         }
