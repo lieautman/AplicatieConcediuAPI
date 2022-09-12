@@ -13,12 +13,12 @@ namespace AplicatieConcediuAPI.Controllers
 
         private readonly ILogger<Angajat> _logger;
         private readonly GameOfThronesContext _gameOfThronesContext;
-     
+
         public EchipaController(ILogger<Angajat> logger, GameOfThronesContext gameOfThronesContext)
-            {
-                _logger = logger;
-                _gameOfThronesContext = gameOfThronesContext;
-            }
+        {
+            _logger = logger;
+            _gameOfThronesContext = gameOfThronesContext;
+        }
 
         //formular vizualizare echipe endpoint (pozele acestora)
         [HttpGet("GetVizualizareEchipePoze")]
@@ -32,20 +32,20 @@ namespace AplicatieConcediuAPI.Controllers
         [HttpGet("GetNume")]
         public List<Echipa> GetNume()
         {
-            List<Echipa> e = _gameOfThronesContext.Echipas.Select(x => new Echipa() { Id=x.Id,Nume=x.Nume}).ToList();
+            List<Echipa> e = _gameOfThronesContext.Echipas.Select(x => new Echipa() { Id = x.Id, Nume = x.Nume }).ToList();
             return e;
         }
 
         [HttpGet("PozaEchipa")]
-        public byte[] PozaEchipa([FromQuery]int id)
+        public byte[] PozaEchipa([FromQuery] int id)
         {
-           Echipa e = _gameOfThronesContext.Echipas.Where(e=>e.Id == id).FirstOrDefault();
+            Echipa e = _gameOfThronesContext.Echipas.Where(e => e.Id == id).FirstOrDefault();
             if (e != null)
             {
                 return e.Poza;
             }
             return null;
-         
+
         }
         //update poza echipa in functie de id echipa
         [HttpPost("UpdatePozaEchipa")]
@@ -53,10 +53,14 @@ namespace AplicatieConcediuAPI.Controllers
         {
             int id = echipa.Id;
             Echipa e = new Echipa();
-            e = _gameOfThronesContext.Echipas.Select(x => x).Where(x =>x.Id==id).FirstOrDefault();
-            e.Poza = echipa.Poza;
-            _gameOfThronesContext.SaveChanges();
-            if (e != null) { return Ok(); }
+            e = _gameOfThronesContext.Echipas.Select(x => x).Where(x => x.Id == id).FirstOrDefault();
+
+            if (e != null)
+            {
+                e.Poza = echipa.Poza;
+                _gameOfThronesContext.SaveChanges(); 
+                return Ok();
+            }
             return NoContent();
         }
     }
