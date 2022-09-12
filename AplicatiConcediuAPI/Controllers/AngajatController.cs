@@ -483,59 +483,34 @@ namespace AplicatieConcediuAPI.Controllers
 
         //USE: Pagina toti angajatii (TotiAngajatii)
         //formular toti angajatii preluare date angajati
-        [HttpGet("GetPreluareDateDespreTotiAngajatii/{index1}/{index2}")]
-        public ActionResult<List<Angajat>> GetPreluareDateDespreTotiAngajatii(int index1, int index2)
-        {
-            List<Angajat> conc = new List<Angajat>();
-            conc = _gameOfThronesContext.Angajats.Include(x=>x.Manager).Include(x=>x.IdEchipaNavigation).Select(x => x).ToList();
-            if (conc != null) 
-            {
-                if (index2 > conc.Count)
-                    index2 = conc.Count;
-                return Ok(conc.GetRange(index1,index2));
-            }
-            return NoContent();
-        }
-        [HttpGet("GetPreluareNumarDePagini/{index1}/{index2}")]
-        public ActionResult<int> GetPreluareNumarDePagini(int index1, int index2)
-        {
-            List<Angajat> conc = new List<Angajat>();
-            conc = _gameOfThronesContext.Angajats.Include(x => x.Manager).Include(x => x.IdEchipaNavigation).Select(x => x).ToList();
-            if (conc != null)
-            {
-                if (index2 > conc.Count)
-                    index2 = conc.Count;
-                int nrPag = conc.Count / (index2 - index1);
-                if (conc.Count % (index2 - index1) > 0)
-                    nrPag++;
-                return Ok(nrPag);
-            }
-            return NoContent();
-        }
         [HttpPost("PostPreluareDateDespreTotiAngajatiiDinEchipa/{index1}/{index2}")]
         public ActionResult<List<Angajat>> PostPreluareDateDespreTotiAngajatiiDinEchipa([FromBody] Angajat a,int index1, int index2)
         {
             List<Angajat> conc = new List<Angajat>();
-            conc = _gameOfThronesContext.Angajats.Include(x=>x.Manager).Include(x => x.IdEchipaNavigation).Select(x => x).Where(x => x.IdEchipa == a.IdEchipa).ToList();
+            if(a.IdEchipa!=null)
+                conc = _gameOfThronesContext.Angajats.Include(x=>x.Manager).Include(x => x.IdEchipaNavigation).Select(x => x).Where(x => x.IdEchipa == a.IdEchipa).ToList();
+            conc = _gameOfThronesContext.Angajats.Include(x=>x.Manager).Include(x => x.IdEchipaNavigation).Select(x => x).Where(x=>x.Nume.Contains(a.Nume)&&x.Prenume.Contains(a.Prenume)&&x.Email.Contains(a.Email) && x.Manager.Nume.Contains(a.Manager.Nume)&&x.IdEchipaNavigation.Nume.Contains(a.IdEchipaNavigation.Nume)).ToList();
             if (conc != null)
             {
                 if (index2 > conc.Count)
                     index2 = conc.Count;
-                return Ok(conc.GetRange(index1, index2));
+                return Ok(conc.GetRange(index1, index2-index1));
             }
             return NoContent();
         }
-        [HttpPost("PostPreluareNumarDePaginiDinEchipa/{index1}/{index2}")]
-        public ActionResult<int> PostPreluareNumarDePaginiDinEchipa([FromBody] Angajat a,int index1, int index2)
+        //preluare numar pagini
+        [HttpPost("PostPreluareNumarDePaginiDinEchipa/{nrElemPePag}")]
+        public ActionResult<int> PostPreluareNumarDePaginiDinEchipa([FromBody] Angajat a, int nrElemPePag)
         {
             List<Angajat> conc = new List<Angajat>();
-            conc = _gameOfThronesContext.Angajats.Include(x => x.Manager).Include(x => x.IdEchipaNavigation).Select(x => x).Where(x => x.IdEchipa == a.IdEchipa).ToList();
+            if (a.IdEchipa != null)
+                conc = _gameOfThronesContext.Angajats.Include(x => x.Manager).Include(x => x.IdEchipaNavigation).Select(x => x).Where(x => x.IdEchipa == a.IdEchipa).ToList();
+            conc = _gameOfThronesContext.Angajats.Include(x => x.Manager).Include(x => x.IdEchipaNavigation).Select(x => x).Where(x => x.Nume.Contains(a.Nume) && x.Prenume.Contains(a.Prenume) && x.Email.Contains(a.Email) && x.Manager.Nume.Contains(a.Manager.Nume) && x.IdEchipaNavigation.Nume.Contains(a.IdEchipaNavigation.Nume)).ToList();
+
             if (conc != null)
             {
-                if (index2 > conc.Count)
-                    index2 = conc.Count;
-                int nrPag = conc.Count / (index2 - index1);
-                if (conc.Count % (index2 - index1) > 0)
+                int nrPag = conc.Count/ nrElemPePag;
+                if (conc.Count % nrElemPePag > 0)
                     nrPag++;
                 return Ok(nrPag);
             }
