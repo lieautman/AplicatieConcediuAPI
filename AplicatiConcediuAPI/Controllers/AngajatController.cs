@@ -243,6 +243,12 @@ namespace AplicatieConcediuAPI.Controllers
                 {
                     isError = true;
                 }
+                //validare parola
+                const string reParola = "^(?!.([A-Za-z0-9])\\1{1})(?=.?[A-Z])(?=.?[a-z])(?=.?[0-9])(?=.?[#?!@$%^&-]).{8,}$";
+                if (!Regex.Match(parola, reParola, RegexOptions.IgnoreCase).Success)
+                {
+                    isError = true;
+                }
                 //data nastere in viitor
                 if (data_nastere > DateTime.Now)
                 {
