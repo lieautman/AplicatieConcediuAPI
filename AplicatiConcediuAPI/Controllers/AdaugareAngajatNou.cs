@@ -100,102 +100,16 @@ namespace AplicatieConcediuAPI.Controllers
 
                 }
                 
-                //verificarea lugimii minime a  caracterelor
-                if (!isError)
-                {
-                    if (a.Nume.Length < 2)
-                    {
-
-                        isError = true;
-                    }
-                    if (a.Prenume.Length < 2)
-                    {
-
-                        isError = true;
-                    }
-                    if (a.Numartelefon.Length < 10)
-                    {
-                        isError = true;
-                    }
-                    if (a.Cnp.Length < 13)
-                    {
-                        isError = true;
-                    }
-                    if (a.SeriaNumarBuletin.Length < 6)
-                    {
-                        isError = true;
-                    }
-                    if (a.Parola.Length < 3)
-                    {
-
-                        isError = true;
-                    }
-                    if (a.Email.Length < 4)
-                    {
-                        isError = true;
-                    }
-                }
-                // verificare daca depasesc lungimile caract
-                if (!isError)
-                {
-                    if (a.Nume.Length > 150)
-                    {
-
-                        isError = true;
-                    }
-                    if (a.Prenume.Length > 100)
-                    {
-
-                        isError = true;
-                    }
-                    if (a.Numartelefon.Length > 20)
-                    {
-                        isError = true;
-                    }
-                    if (a.Cnp.Length > 13)
-                    {
-                        isError = true;
-                    }
-                    if (a.SeriaNumarBuletin.Length > 6)
-                    {
-                        isError = true;
-                    }
-                    if (a.Parola.Length > 100)
-                    {
-
-                        isError = true;
-                    }
-                    if (a.Email.Length > 100)
-                    {
-                        isError = true;
-                    }
-                }
+                
                 //verificare validitate date campuri
                 if (!isError)
-                {
-                    const string reTelefon = "^[0-9]*$";
-                    if (!Regex.Match(a.Numartelefon, reTelefon, RegexOptions.IgnoreCase).Success)
-                    {
-                        isError = true;
-                    }
-                    const string reCnp = "^[0-9]*$";
-                    if (!Regex.Match(a.Cnp, reCnp, RegexOptions.IgnoreCase).Success)
-                    {
-                        isError = true;
-                    }
-                    //validare email
+                {  //validare email
                     const string reEmail = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$";
                     if (!Regex.Match(a.Email, reEmail, RegexOptions.IgnoreCase).Success)
                     {
                         isError = true;
                     }
-                    //seria nr ci
-                    const string reSeriaNumarCI = "^[a-z][0-9]{4}$";
-                    if (!Regex.Match(a.SeriaNumarBuletin, reSeriaNumarCI, RegexOptions.IgnoreCase).Success) ;
-                    {
-                        isError = true;
-                    }
-                   
+                    
                 }
                 //daca data nasterii este in viitor
                 if (a.DataNasterii > DateTime.Now)
