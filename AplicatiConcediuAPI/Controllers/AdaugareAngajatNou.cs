@@ -22,30 +22,14 @@ namespace AplicatieConcediuAPI.Controllers
 
         }
         [HttpPost("PostAdaugareAngajatNou")]
-        public ActionResult PostAdaugareAngajatNou(Angajat a)
+        public string PostAdaugareAngajatNou(Angajat a)
 
         {   try
             {
-                Angajat angajat = new Angajat();
-                angajat.Nume = a.Nume;
-                angajat.Prenume = a.Prenume;
-                angajat.DataNasterii = a.DataNasterii;
-                angajat.Email = a.Email;
-                angajat.Numartelefon = a.Numartelefon;
-                angajat.Cnp = a.Cnp;
-                angajat.SeriaNumarBuletin = a.SeriaNumarBuletin;
-                angajat.Parola = a.Parola;
-                angajat.EsteAdmin = false;
-                angajat.NumarZileConceiduRamase = 21;
-                angajat.ManagerId = 0;
-                angajat.EsteAngajatCuActeInRegula = false;
-                angajat.Salariu = 0;
-                angajat.IdEchipa = 0;
-                angajat.DataAngajarii = a.DataAngajarii;
 
 
 
-                string nume = a.Nume;
+              /*string nume = a.Nume;
                 string prenume = a.Prenume;
                 DateTime data_nastere = a.DataNasterii;
                 string email = a.Email;
@@ -59,7 +43,7 @@ namespace AplicatieConcediuAPI.Controllers
                 bool esteangajatcuacteinregula = (bool)a.EsteAngajatCuActeInRegula;
                 float salariu = (float)a.Salariu;
                 int idechipa = (int)a.IdEchipa;
-                DateTime data_angajarii = (DateTime)a.DataAngajarii;
+                DateTime data_angajarii = (DateTime)a.DataAngajarii; */
 
                 bool isError = false;
 
@@ -67,31 +51,31 @@ namespace AplicatieConcediuAPI.Controllers
                 //verificare daca sunt campuri goale
                 if (!isError)
                 {
-                    if (nume == "")
+                    if (a.Nume == "")
                     {
                         isError = true;
                     }
-                    if (prenume == "")
+                    if (a.Prenume == "")
                     {
                         isError = true;
                     }
-                    if (nr_telefon == "")
+                    if (a.Numartelefon == "")
                     {
                         isError = true;
                     }
-                    if (cnp == "")
+                    if (a.Cnp == "")
                     {
                         isError = true;
                     }
-                    if (SerieNrBuletin == "")
+                    if (a.SeriaNumarBuletin == "")
                     {
                         isError = true;
                     }
-                    if (parola == "")
+                    if (a.Parola == "")
                     {
                         isError = true;
                     }
-                    if (email == "")
+                    if (a.Email == "")
                     {
                         isError = true;
                     }
@@ -100,113 +84,53 @@ namespace AplicatieConcediuAPI.Controllers
                     {
                         isError = true;
                     }*/
-                    if (managerid == 0)
+                    if (a.ManagerId == 0)
                     {
                         isError = true;
                     }
                   
-                    if (salariu == 0)
+                    if (a.Salariu == 0)
                     {
                         isError = true;
                     }
-                    if (idechipa == 0)
+                    if (a.IdEchipa == 0)
                     {
                         isError = true;
                     }
 
                 }
-                // verificare empty string
-                /*if (!isError)
-                {
-                    if (nume == null)
-                    {
-                        isError = true;
-                    }
-                    if (prenume == null)
-                    {
-                        isError = true;
-                    }
-                    if (data_nastere == null)
-                    {
-                        isError = true;
-                    }
-                    if (nr_telefon == null)
-                    {
-                        isError = true;
-                    }
-                    if (cnp == null)
-                    {
-                        isError = true;
-                    }
-                    if (SerieNrBuletin == null)
-                    {
-                        isError = true;
-                    }
-                    if (parola == null)
-                    {
-                        isError = true;
-                    }
-                    if (email == null)
-                    {
-                        isError = true;
-                    }
-                    if (esteadmin == null)
-                    {
-                        isError = true;
-                    }
-                    if (numarzileconcediu == null)
-                    {
-                        isError = true;
-                    }
-                    if (managerid == null)
-                    {
-                        isError = true;
-                    }
-                    if (esteangajatcuacteinregula == null)
-                    {
-                        isError = true;
-                    }
-                    if (salariu == null)
-                    {
-                        isError = true;
-                    }
-                    if (idechipa == null)
-                    {
-                        isError = true;
-                    }
-                } */
-
+                
                 //verificarea lugimii minime a  caracterelor
                 if (!isError)
                 {
-                    if (nume.Length < 2)
+                    if (a.Nume.Length < 2)
                     {
 
                         isError = true;
                     }
-                    if (prenume.Length < 2)
+                    if (a.Prenume.Length < 2)
                     {
 
                         isError = true;
                     }
-                    if (nr_telefon.Length < 10)
+                    if (a.Numartelefon.Length < 10)
                     {
                         isError = true;
                     }
-                    if (cnp.Length < 13)
+                    if (a.Cnp.Length < 13)
                     {
                         isError = true;
                     }
-                    if (SerieNrBuletin.Length < 6)
+                    if (a.SeriaNumarBuletin.Length < 6)
                     {
                         isError = true;
                     }
-                    if (parola.Length < 8)
+                    if (a.Parola.Length < 8)
                     {
 
                         isError = true;
                     }
-                    if (email.Length < 4)
+                    if (a.Email.Length < 4)
                     {
                         isError = true;
                     }
@@ -214,34 +138,34 @@ namespace AplicatieConcediuAPI.Controllers
                 // verificare daca depasesc lungimile caract
                 if (!isError)
                 {
-                    if (nume.Length > 150)
+                    if (a.Nume.Length > 150)
                     {
 
                         isError = true;
                     }
-                    if (prenume.Length > 100)
+                    if (a.Prenume.Length > 100)
                     {
 
                         isError = true;
                     }
-                    if (nr_telefon.Length > 20)
+                    if (a.Numartelefon.Length > 20)
                     {
                         isError = true;
                     }
-                    if (cnp.Length > 13)
+                    if (a.Cnp.Length > 13)
                     {
                         isError = true;
                     }
-                    if (SerieNrBuletin.Length > 6)
+                    if (a.SeriaNumarBuletin.Length > 6)
                     {
                         isError = true;
                     }
-                    if (parola.Length > 100)
+                    if (a.Parola.Length > 100)
                     {
 
                         isError = true;
                     }
-                    if (email.Length > 100)
+                    if (a.Email.Length > 100)
                     {
                         isError = true;
                     }
@@ -250,51 +174,56 @@ namespace AplicatieConcediuAPI.Controllers
                 if (!isError)
                 {
                     const string reTelefon = "^[0-9]*$";
-                    if (!Regex.Match(nr_telefon, reTelefon, RegexOptions.IgnoreCase).Success)
+                    if (!Regex.Match(a.Numartelefon, reTelefon, RegexOptions.IgnoreCase).Success)
                     {
                         isError = true;
                     }
                     const string reCnp = "^[0-9]*$";
-                    if (!Regex.Match(cnp, reCnp, RegexOptions.IgnoreCase).Success)
+                    if (!Regex.Match(a.Cnp, reCnp, RegexOptions.IgnoreCase).Success)
                     {
                         isError = true;
                     }
                     //validare email
                     const string reEmail = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$";
-                    if (!Regex.Match(email, reEmail, RegexOptions.IgnoreCase).Success)
+                    if (!Regex.Match(a.Email, reEmail, RegexOptions.IgnoreCase).Success)
                     {
                         isError = true;
                     }
                     // validare parola
                     const string reParola = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$";
-                    if (!Regex.Match(parola, reParola, RegexOptions.IgnoreCase).Success)
+                    if (!Regex.Match(a.Parola, reParola, RegexOptions.IgnoreCase).Success)
                     {
                         isError = true;
                     }
 
                 }
                 //daca data nasterii este in viitor
-                if (data_nastere > DateTime.Now)
+                if (a.DataNasterii > DateTime.Now)
                 {
                     isError = true;
                 }
 
                 //daca data angajarii este inainte de data nasterii
-                if (data_nastere > data_angajarii)
+                if (a.DataNasterii > a.DataAngajarii)
                 {
                     isError = true;
                 }
+                if (!isError)
+                {
+                    _gameOfThronesContext.Angajats.Add(a);
+                    _gameOfThronesContext.SaveChanges();
+
+                    return "Adaugare efectuata";
+                }
+                else
+                    return "Eroare de adaugare";
 
             }
             catch (Exception ex)
             {
-
+                return "Eroare de adaugare";
             }
-
-            _gameOfThronesContext.Angajats.Add(a);
-            _gameOfThronesContext.SaveChanges();
-
-            return Ok();
+           
         }
     }
 }
