@@ -201,6 +201,32 @@ namespace AplicatieConcediuAPI.Controllers
             //verificare validitate date campuri
             if (!isError)
             {
+                //cnp si data nasterii corespund
+                {
+                    //cnp si data nasterii corespund
+                    {
+                        string cnpDataNastere = cnp.Substring(1, 6);
+                        string dataNastereFormatataString = data_nastere.ToString();
+                        int index = dataNastereFormatataString.IndexOf('/', dataNastereFormatataString.IndexOf('/') + 1);
+                        string luna = dataNastereFormatataString.Substring(0, dataNastereFormatataString.IndexOf("/"));
+                        string zi = dataNastereFormatataString.Substring(dataNastereFormatataString.IndexOf("/") + 1, index - dataNastereFormatataString.IndexOf("/") - 1);
+                        string an = dataNastereFormatataString.Substring(index + 1 + 2, dataNastereFormatataString.IndexOf(" ") - index - 3);
+
+                        if (zi.Length == 1)
+                        {
+                            zi = "0" + zi;
+                        }
+                        if (luna.Length == 1)
+                        {
+                            luna = "0" + luna;
+                        }
+
+                        if (cnpDataNastere != an + luna + zi)
+                        {
+                            isError = true;
+                        }
+                    }
+                }
                 const string reTelefon = "^[0-9]*$";
                 if (!Regex.Match(nr_telefon, reTelefon, RegexOptions.IgnoreCase).Success)
                 {
@@ -457,20 +483,56 @@ namespace AplicatieConcediuAPI.Controllers
 
         //USE: Pagina toti angajatii (TotiAngajatii)
         //formular toti angajatii preluare date angajati
-        [HttpGet("GetPreluareDateDespreTotiAngajatii")]
-        public ActionResult<List<Angajat>> GetPreluareDateDespreTotiAngajatii()
+        [HttpGet("GetPreluareDateDespreTotiAngajatii/{index1}/{index2}")]
+        public ActionResult<List<Angajat>> GetPreluareDateDespreTotiAngajatii(int index1, int index2)
         {
             List<Angajat> conc = new List<Angajat>();
             conc = _gameOfThronesContext.Angajats.Include(x=>x.Manager).Include(x=>x.IdEchipaNavigation).Select(x => x).ToList();
-            if (conc != null) { return Ok(conc); }
+            if (conc != null) 
+            {
+                if (index2 > conc.Count)
+                    index2 = conc.Count;
+                return Ok(conc.GetRange(index1,index2));
+            }
             return NoContent();
         }
-        [HttpPost("PostPreluareDateDespreTotiAngajatiiDinEchipa")]
-        public ActionResult<List<Angajat>> PostPreluareDateDespreTotiAngajatiiDinEchipa(Angajat a)
+        [HttpGet("GetPreluareNumarDePagini/{index1}/{index2}")]
+        public ActionResult<int> GetPreluareNumarDePagini(int index1, int index2)
+        {
+            List<Angajat> conc = new List<Angajat>();
+            conc = _gameOfThronesContext.Angajats.Include(x => x.Manager).Include(x => x.IdEchipaNavigation).Select(x => x).ToList();
+            if (conc != null)
+            {
+                if (index2 > conc.Count)
+                    index2 = conc.Count;
+                return Ok(conc.Count/(index2-index1));
+            }
+            return NoContent();
+        }
+        [HttpPost("PostPreluareDateDespreTotiAngajatiiDinEchipa/{index1}/{index2}")]
+        public ActionResult<List<Angajat>> PostPreluareDateDespreTotiAngajatiiDinEchipa([FromBody] Angajat a,int index1, int index2)
         {
             List<Angajat> conc = new List<Angajat>();
             conc = _gameOfThronesContext.Angajats.Include(x=>x.Manager).Include(x => x.IdEchipaNavigation).Select(x => x).Where(x => x.IdEchipa == a.IdEchipa).ToList();
-            if (conc != null) { return Ok(conc); }
+            if (conc != null)
+            {
+                if (index2 > conc.Count)
+                    index2 = conc.Count;
+                return Ok(conc.GetRange(index1, index2));
+            }
+            return NoContent();
+        }
+        [HttpGet("PostPreluareNumarDePaginiDinEchipa/{index1}/{index2}")]
+        public ActionResult<int> PostPreluareNumarDePaginiDinEchipa([FromBody] Angajat a,int index1, int index2)
+        {
+            List<Angajat> conc = new List<Angajat>();
+            conc = _gameOfThronesContext.Angajats.Include(x => x.Manager).Include(x => x.IdEchipaNavigation).Select(x => x).Where(x => x.IdEchipa == a.IdEchipa).ToList();
+            if (conc != null)
+            {
+                if (index2 > conc.Count)
+                    index2 = conc.Count;
+                return Ok(conc.Count / (index2 - index1));
+            }
             return NoContent();
         }
 
