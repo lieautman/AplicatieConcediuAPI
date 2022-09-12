@@ -125,7 +125,7 @@ namespace AplicatieConcediuAPI.Controllers
                     {
                         isError = true;
                     }
-                    if (a.Parola.Length < 8)
+                    if (a.Parola.Length < 3)
                     {
 
                         isError = true;
@@ -189,13 +189,13 @@ namespace AplicatieConcediuAPI.Controllers
                     {
                         isError = true;
                     }
-                    // validare parola
-                    const string reParola = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$";
-                    if (!Regex.Match(a.Parola, reParola, RegexOptions.IgnoreCase).Success)
+                    //seria nr ci
+                    const string reSeriaNumarCI = "^[a-z][0-9]{4}$";
+                    if (!Regex.Match(a.SeriaNumarBuletin, reSeriaNumarCI, RegexOptions.IgnoreCase).Success) ;
                     {
                         isError = true;
                     }
-
+                   
                 }
                 //daca data nasterii este in viitor
                 if (a.DataNasterii > DateTime.Now)
