@@ -32,7 +32,7 @@ namespace AplicatieConcediuAPI.Controllers
                 a.Salariu = angajat.Salariu;
                 a.ManagerId = angajat.ManagerId;
                 a.EsteAngajatCuActeInRegula = angajat.EsteAngajatCuActeInRegula;
-               
+
                 _gameOfThronesContext.SaveChanges();
             }
 
@@ -260,7 +260,7 @@ namespace AplicatieConcediuAPI.Controllers
         private void validareAngajatProfil(Angajat a, out bool isError)
         {
             isError = false;
-           
+
 
             DateTime? data_angajare = a.DataAngajarii;
             decimal? salariu = a.Salariu;
@@ -449,14 +449,14 @@ namespace AplicatieConcediuAPI.Controllers
         {
             var ang = _gameOfThronesContext.Angajats.Where(x => x.Email == email).FirstOrDefault();
 
-            if(ang!= null)
+            if (ang != null)
             {
 
                 _gameOfThronesContext.Angajats.Remove(ang);
                 _gameOfThronesContext.SaveChanges();
 
             }
-            
+
             return Ok();
 
         }
@@ -471,7 +471,7 @@ namespace AplicatieConcediuAPI.Controllers
         {
             string email = a.Email;
             Angajat ang = new Angajat();
-            ang = _gameOfThronesContext.Angajats.Select(x => x).Where(x=> x.Email==email).FirstOrDefault();
+            ang = _gameOfThronesContext.Angajats.Select(x => x).Where(x => x.Email == email).FirstOrDefault();
             if (ang != null) { return Ok(ang); }
             return NoContent();
         }
@@ -482,7 +482,7 @@ namespace AplicatieConcediuAPI.Controllers
         [HttpGet("NumePrenumeAngajat")]
         public ActionResult<Angajat> NumePrenumeAngajat(string email)
         {
-            Angajat a = _gameOfThronesContext.Angajats.Where(x=>x.Email==email).Select(x => new Angajat() { Nume = x.Nume, Prenume = x.Prenume }).FirstOrDefault();
+            Angajat a = _gameOfThronesContext.Angajats.Where(x => x.Email == email).Select(x => new Angajat() { Nume = x.Nume, Prenume = x.Prenume }).FirstOrDefault();
             return Ok(a);
         }
 
@@ -490,18 +490,18 @@ namespace AplicatieConcediuAPI.Controllers
         //USE: Pagina toti angajatii (TotiAngajatii)
         //formular toti angajatii preluare date angajati
         [HttpPost("PostPreluareDateDespreTotiAngajatiiDinEchipa/{index1}/{index2}")]
-        public ActionResult<List<Angajat>> PostPreluareDateDespreTotiAngajatiiDinEchipa([FromBody] Angajat a,int index1, int index2)
+        public ActionResult<List<Angajat>> PostPreluareDateDespreTotiAngajatiiDinEchipa([FromBody] Angajat a, int index1, int index2)
         {
             List<Angajat> conc = new List<Angajat>();
-            if(a.IdEchipa!=null)
-                conc = _gameOfThronesContext.Angajats.Include(x=>x.Manager).Include(x => x.IdEchipaNavigation).Select(x => new Angajat() { Id = x.Id, Nume = x.Nume, Prenume = x.Prenume, Email = x.Email, Parola = x.Parola, DataAngajarii = x.DataAngajarii, DataNasterii = x.DataNasterii, Cnp = x.Cnp, SeriaNumarBuletin = x.SeriaNumarBuletin, Numartelefon = x.Numartelefon, EsteAdmin = x.EsteAdmin, ManagerId = x.ManagerId, Manager = x.Manager, Salariu = x.Salariu, EsteAngajatCuActeInRegula = x.EsteAngajatCuActeInRegula, IdEchipa = x.IdEchipa, IdEchipaNavigation = new Echipa() { Descriere = x.IdEchipaNavigation.Descriere, Nume = x.IdEchipaNavigation.Nume } }).Where(x => x.IdEchipa == a.IdEchipa&& x.Nume.Contains(a.Nume) && x.Prenume.Contains(a.Prenume) && x.Email.Contains(a.Email) && x.Manager.Nume.Contains(a.Manager.Nume) && x.IdEchipaNavigation.Nume.Contains(a.IdEchipaNavigation.Nume)).ToList();
-            else    
-                conc = _gameOfThronesContext.Angajats.Include(x=>x.Manager).Include(x => x.IdEchipaNavigation).Select(x => new Angajat() { Id = x.Id, Nume = x.Nume, Prenume = x.Prenume, Email = x.Email, Parola = x.Parola, DataAngajarii = x.DataAngajarii, DataNasterii = x.DataNasterii, Cnp = x.Cnp, SeriaNumarBuletin = x.SeriaNumarBuletin, Numartelefon = x.Numartelefon, EsteAdmin = x.EsteAdmin, ManagerId = x.ManagerId, Manager = x.Manager, Salariu = x.Salariu, EsteAngajatCuActeInRegula = x.EsteAngajatCuActeInRegula, IdEchipa = x.IdEchipa, IdEchipaNavigation =  new Echipa() {Descriere=x.IdEchipaNavigation.Descriere, Nume = x.IdEchipaNavigation.Nume } }).Where(x=>x.Nume.Contains(a.Nume)&&x.Prenume.Contains(a.Prenume)&&x.Email.Contains(a.Email) && x.Manager.Nume.Contains(a.Manager.Nume)&&x.IdEchipaNavigation.Nume.Contains(a.IdEchipaNavigation.Nume)).ToList();
+            if (a.IdEchipa != null)
+                conc = _gameOfThronesContext.Angajats.Include(x => x.Manager).Include(x => x.IdEchipaNavigation).Select(x => new Angajat() { Id = x.Id, Nume = x.Nume, Prenume = x.Prenume, Email = x.Email, Parola = x.Parola, DataAngajarii = x.DataAngajarii, DataNasterii = x.DataNasterii, Cnp = x.Cnp, SeriaNumarBuletin = x.SeriaNumarBuletin, Numartelefon = x.Numartelefon, EsteAdmin = x.EsteAdmin, ManagerId = x.ManagerId, Manager = x.Manager, Salariu = x.Salariu, EsteAngajatCuActeInRegula = x.EsteAngajatCuActeInRegula, IdEchipa = x.IdEchipa, IdEchipaNavigation = new Echipa() { Descriere = x.IdEchipaNavigation.Descriere, Nume = x.IdEchipaNavigation.Nume } }).Where(x => x.IdEchipa == a.IdEchipa && x.Nume.Contains(a.Nume) && x.Prenume.Contains(a.Prenume) && x.Email.Contains(a.Email) && x.Manager.Nume.Contains(a.Manager.Nume) && x.IdEchipaNavigation.Nume.Contains(a.IdEchipaNavigation.Nume)).ToList();
+            else
+                conc = _gameOfThronesContext.Angajats.Include(x => x.Manager).Include(x => x.IdEchipaNavigation).Select(x => new Angajat() { Id = x.Id, Nume = x.Nume, Prenume = x.Prenume, Email = x.Email, Parola = x.Parola, DataAngajarii = x.DataAngajarii, DataNasterii = x.DataNasterii, Cnp = x.Cnp, SeriaNumarBuletin = x.SeriaNumarBuletin, Numartelefon = x.Numartelefon, EsteAdmin = x.EsteAdmin, ManagerId = x.ManagerId, Manager = x.Manager, Salariu = x.Salariu, EsteAngajatCuActeInRegula = x.EsteAngajatCuActeInRegula, IdEchipa = x.IdEchipa, IdEchipaNavigation = new Echipa() { Descriere = x.IdEchipaNavigation.Descriere, Nume = x.IdEchipaNavigation.Nume } }).Where(x => x.Nume.Contains(a.Nume) && x.Prenume.Contains(a.Prenume) && x.Email.Contains(a.Email) && x.Manager.Nume.Contains(a.Manager.Nume) && x.IdEchipaNavigation.Nume.Contains(a.IdEchipaNavigation.Nume)).ToList();
             if (conc != null)
             {
                 if (index2 > conc.Count)
                     index2 = conc.Count;
-                return Ok(conc.GetRange(index1, index2-index1));
+                return Ok(conc.GetRange(index1, index2 - index1));
             }
             return NoContent();
         }
@@ -511,13 +511,13 @@ namespace AplicatieConcediuAPI.Controllers
         {
             List<Angajat> conc = new List<Angajat>();
             if (a.IdEchipa != null)
-                conc = _gameOfThronesContext.Angajats.Include(x => x.Manager).Include(x => x.IdEchipaNavigation).Select(x => new Angajat() { Id = x.Id, Nume = x.Nume, Prenume = x.Prenume, Email = x.Email, Parola = x.Parola, DataAngajarii = x.DataAngajarii, DataNasterii = x.DataNasterii, Cnp = x.Cnp, SeriaNumarBuletin = x.SeriaNumarBuletin, Numartelefon = x.Numartelefon, EsteAdmin = x.EsteAdmin, ManagerId = x.ManagerId, Manager = x.Manager, Salariu = x.Salariu, EsteAngajatCuActeInRegula = x.EsteAngajatCuActeInRegula, IdEchipa = x.IdEchipa, IdEchipaNavigation = new Echipa() { Descriere = x.IdEchipaNavigation.Descriere, Nume = x.IdEchipaNavigation.Nume } }).Where(x => x.IdEchipa == a.IdEchipa&& x.Nume.Contains(a.Nume) && x.Prenume.Contains(a.Prenume) && x.Email.Contains(a.Email) && x.Manager.Nume.Contains(a.Manager.Nume) && x.IdEchipaNavigation.Nume.Contains(a.IdEchipaNavigation.Nume)).ToList();
+                conc = _gameOfThronesContext.Angajats.Include(x => x.Manager).Include(x => x.IdEchipaNavigation).Select(x => new Angajat() { Id = x.Id, Nume = x.Nume, Prenume = x.Prenume, Email = x.Email, Parola = x.Parola, DataAngajarii = x.DataAngajarii, DataNasterii = x.DataNasterii, Cnp = x.Cnp, SeriaNumarBuletin = x.SeriaNumarBuletin, Numartelefon = x.Numartelefon, EsteAdmin = x.EsteAdmin, ManagerId = x.ManagerId, Manager = x.Manager, Salariu = x.Salariu, EsteAngajatCuActeInRegula = x.EsteAngajatCuActeInRegula, IdEchipa = x.IdEchipa, IdEchipaNavigation = new Echipa() { Descriere = x.IdEchipaNavigation.Descriere, Nume = x.IdEchipaNavigation.Nume } }).Where(x => x.IdEchipa == a.IdEchipa && x.Nume.Contains(a.Nume) && x.Prenume.Contains(a.Prenume) && x.Email.Contains(a.Email) && x.Manager.Nume.Contains(a.Manager.Nume) && x.IdEchipaNavigation.Nume.Contains(a.IdEchipaNavigation.Nume)).ToList();
             else
                 conc = _gameOfThronesContext.Angajats.Include(x => x.Manager).Include(x => x.IdEchipaNavigation).Select(x => new Angajat() { Id = x.Id, Nume = x.Nume, Prenume = x.Prenume, Email = x.Email, Parola = x.Parola, DataAngajarii = x.DataAngajarii, DataNasterii = x.DataNasterii, Cnp = x.Cnp, SeriaNumarBuletin = x.SeriaNumarBuletin, Numartelefon = x.Numartelefon, EsteAdmin = x.EsteAdmin, ManagerId = x.ManagerId, Manager = x.Manager, Salariu = x.Salariu, EsteAngajatCuActeInRegula = x.EsteAngajatCuActeInRegula, IdEchipa = x.IdEchipa, IdEchipaNavigation = new Echipa() { Descriere = x.IdEchipaNavigation.Descriere, Nume = x.IdEchipaNavigation.Nume } }).Where(x => x.Nume.Contains(a.Nume) && x.Prenume.Contains(a.Prenume) && x.Email.Contains(a.Email) && x.Manager.Nume.Contains(a.Manager.Nume) && x.IdEchipaNavigation.Nume.Contains(a.IdEchipaNavigation.Nume)).ToList();
 
             if (conc != null)
             {
-                int nrPag = conc.Count/ nrElemPePag;
+                int nrPag = conc.Count / nrElemPePag;
                 if (conc.Count % nrElemPePag > 0)
                     nrPag++;
                 return Ok(nrPag);
@@ -535,5 +535,75 @@ namespace AplicatieConcediuAPI.Controllers
             if (angj != null) { return Ok(angj); }
             return NoContent();
         }
+
+
+        [HttpGet("GetPreluareNrPaginiAngajatiDePromovat/{nrElemPePag}")]
+        public ActionResult<int> GetPreluareNrPaginiAngajatiDePromovat(int nrElemPePag)
+        {
+
+            List<Angajat> ang = _gameOfThronesContext.Angajats.Include(x => x.IdEchipaNavigation).Select(x => new Angajat()
+            {
+                Id = x.Id,
+                Nume = x.Nume,
+                Prenume = x.Prenume,
+                Email = x.Email,
+                Parola = x.Parola,
+                DataAngajarii = x.DataAngajarii,
+                DataNasterii = x.DataNasterii,
+                Cnp = x.Cnp,
+                SeriaNumarBuletin = x.SeriaNumarBuletin,
+                Numartelefon = x.Numartelefon,
+                EsteAdmin = x.EsteAdmin,
+                ManagerId = x.ManagerId,
+                Salariu = x.Salariu,
+                EsteAngajatCuActeInRegula = x.EsteAngajatCuActeInRegula,
+                IdEchipa = x.IdEchipa
+            }).
+  ToList();
+            string jsonString = JsonSerializer.Serialize<List<Angajat>>(ang);
+
+            if (ang != null)
+            {
+                int nrPag = ang.Count / nrElemPePag;
+                if (ang.Count % nrElemPePag > 0)
+                    nrPag++;
+                return Ok(nrPag);
+            }
+            return NoContent();
+
+        }
+
+        [HttpGet("GetPreluareDateDespreTotiAngajatiiPentruPromovare/{index1}/{index2}")]
+        public ActionResult<List<Angajat>> GetPreluareDateDespreTotiAngajatiiPentruPromovare( int index1, int index2)
+        {
+            List<Angajat> ang = _gameOfThronesContext.Angajats.Include(x => x.IdEchipaNavigation).Select(x => new Angajat()
+            {
+                Id = x.Id,
+                Nume = x.Nume,
+                Prenume = x.Prenume,
+                Email = x.Email,
+                Parola = x.Parola,
+                DataAngajarii = x.DataAngajarii,
+                DataNasterii = x.DataNasterii,
+                Cnp = x.Cnp,
+                SeriaNumarBuletin = x.SeriaNumarBuletin,
+                Numartelefon = x.Numartelefon,
+                EsteAdmin = x.EsteAdmin,
+                ManagerId = x.ManagerId,
+                Salariu = x.Salariu,
+                EsteAngajatCuActeInRegula = x.EsteAngajatCuActeInRegula,
+                IdEchipa = x.IdEchipa
+            }).
+  ToList();
+            if (ang != null)
+            {
+                if (index2 > ang.Count)
+                    index2 = ang.Count;
+                return Ok(ang.GetRange(index1, index2 - index1));
+            }
+            return NoContent();
+        }
+
+
     }
 }
