@@ -244,7 +244,7 @@ namespace AplicatieConcediuAPI.Controllers
                     isError = true;
                 }
                 //validare parola
-                const string reParola = "^(?!.([A-Za-z0-9])\\1{1})(?=.?[A-Z])(?=.?[a-z])(?=.?[0-9])(?=.?[#?!@$%^&-]).{8,}$";
+                const string reParola = "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$";
                 if (!Regex.Match(parola, reParola, RegexOptions.IgnoreCase).Success)
                 {
                     isError = true;
@@ -422,15 +422,12 @@ namespace AplicatieConcediuAPI.Controllers
                 return NoContent();
             }
         }
-
-
         //formular afisare profil preluare date angajat
         [HttpGet("GetDateAngajat/{AngajatEmail}")]
         public Angajat GetDateAngajat(string AngajatEmail)
         {
             return _gameOfThronesContext.Angajats.Where(x => x.Email == AngajatEmail).FirstOrDefault();
         }
-
         [HttpGet("GetManageri")]
         public List<Angajat> GetManageri()
         {
@@ -443,7 +440,6 @@ namespace AplicatieConcediuAPI.Controllers
             return _gameOfThronesContext.Echipas.Select(x => x).ToList();
 
         }
-
         [HttpDelete("StergereAngajat/{email}")]
         public ActionResult<Angajat> StergereAngajat(string email)
         {
@@ -535,8 +531,6 @@ namespace AplicatieConcediuAPI.Controllers
             if (angj != null) { return Ok(angj); }
             return NoContent();
         }
-
-
         [HttpGet("GetPreluareNrPaginiAngajatiDePromovat/{nrElemPePag}")]
         public ActionResult<int> GetPreluareNrPaginiAngajatiDePromovat(int nrElemPePag)
         {
@@ -572,7 +566,6 @@ namespace AplicatieConcediuAPI.Controllers
             return NoContent();
 
         }
-
         [HttpGet("GetPreluareDateDespreTotiAngajatiiPentruPromovare/{index1}/{index2}")]
         public ActionResult<List<Angajat>> GetPreluareDateDespreTotiAngajatiiPentruPromovare( int index1, int index2)
         {
