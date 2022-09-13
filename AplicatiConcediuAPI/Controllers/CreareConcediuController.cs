@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using XD.Models;
 
 namespace AplicatieConcediuAPI.Controllers
@@ -14,18 +16,58 @@ namespace AplicatieConcediuAPI.Controllers
             _logger = logger;
             _gameOfThronesContext = gameOfThronesContext;
         }
-        [HttpGet("GetInlocuitor/{AngajatId}")]
-        public List<Angajat> GetInlocuitori(int AngajatId)
-        {
+       // [HttpGet("GetInlocuitor/{AngajatId}")]
+        //public List<Angajat> GetInlocuitori(int AngajatId)
+        //{
 
+        //    Angajat angajatCurent = _gameOfThronesContext.Angajats.Where(x => x.Id == AngajatId).FirstOrDefault();
+        //    if (angajatCurent == null)
+        //        return null;
+        //    List<Angajat> angajats = new List<Angajat>();       
+        //    List<Angajat> _inlocuitori = _gameOfThronesContext.Angajats.Select(a => new Angajat() { Prenume = a.Prenume, Nume = a.Nume, Id = a.Id, IdEchipa = a.IdEchipa,}).Where(a => a.IdEchipa == angajatCurent.IdEchipa && a.Id != angajatCurent.Id).ToList();
+        //    return
+        //        _inlocuitori;
+        //}
+        [HttpGet("GetInlocuitoriIndisponibili")]
+        public List<Angajat> GetInlocuitoriIndisponibili(DateTime dataIncepere, DateTime dataIncetare, [FromQuery]int AngajatId)
+        {
             Angajat angajatCurent = _gameOfThronesContext.Angajats.Where(x => x.Id == AngajatId).FirstOrDefault();
             if (angajatCurent == null)
                 return null;
-            List<Angajat> _inlocuitori = _gameOfThronesContext.Angajats.Select(a => new Angajat() { Prenume = a.Prenume, Nume = a.Nume, Id = a.Id, IdEchipa = a.IdEchipa,}).Where(a => a.IdEchipa == angajatCurent.IdEchipa && a.Id != angajatCurent.Id).ToList();
-            return
-                _inlocuitori;
+            //List<Concediu>conc =  _gameOfThronesContext.Concedius
+            //    .Include(a => a.Angajat)
+            //    .Where(c => c.Angajat.IdEchipa == angajatCurent.IdEchipa && c.Angajat.Id != angajatCurent.Id 
+            //   && ((dataIncepere >= c.DataInceput && dataIncepere <= c.DataSfarsit) || (dataIncetare >= c.DataInceput && dataIncetare <= c.DataSfarsit))
+            //  )
+            //   .ToList();
+            //List<Angajat> listAngCeNuPot = new List<Angajat>();
+            //List<Angajat> listaInlocuitori = new List<Angajat>();
+            //foreach (Concediu c in conc)
+            //{
+            //    listAngCeNuPot.Add(c.Angajat);
+            //}
+            //listAngCeNuPot = _gameOfThronesContext.Angajats
+            //    .Select(a => new Angajat() { Prenume = a.Prenume, Nume = a.Nume, Id = a.Id, IdEchipa = a.IdEchipa, })
+            //    .Where(a => a.IdEchipa == angajatCurent.IdEchipa && a.Id != angajatCurent.Id).ToList();  
+
+            List<Angajat> asd = _gameOfThronesContext.Angajats
+                .Include(x => x.ConcediuAngajats)
+                .Where(x => x.IdEchipa == angajatCurent.IdEchipa && x.Id != AngajatId
+                 && !x.ConcediuAngajats.Any(c => ((dataIncepere >= c.DataInceput && dataIncepere <= c.DataSfarsit) || (dataIncetare >= c.DataInceput && dataIncetare <= c.DataSfarsit)))
+                 )
+                .Select(a => new Angajat() { Prenume = a.Prenume, Nume = a.Nume, Id = a.Id, IdEchipa = a.IdEchipa })
+                .ToList();
+            return asd;
+           // List<Angajat> _inlocuitori = _gameOfThronesContext.Angajats
+           //     .Select(a => new Angajat() { Prenume = a.Prenume, Nume = a.Nume, Id = a.Id, IdEchipa = a.IdEchipa, })
+           //     .Where(a => a.IdEchipa == angajatCurent.IdEchipa && a.Id != angajatCurent.Id)
+           //     .ToList();
+           //return
+           //     _inlocuitori.Except(listAngCeNuPot).ToList();
         }
-        [HttpGet("TipuriConcediu")]
+        
+                
+                [HttpGet("TipuriConcediu")]
         public List<TipConcediu> GetTipuriConcediu()
         {
             List<TipConcediu> _tipConcediu = _gameOfThronesContext.TipConcedius.Select(a => new TipConcediu() { Nume = a.Nume, Id = a.Id }).ToList();
