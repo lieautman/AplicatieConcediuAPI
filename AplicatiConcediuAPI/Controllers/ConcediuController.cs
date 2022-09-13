@@ -29,6 +29,7 @@ namespace AplicatieConcediuAPI.Controllers
                 if (index2 > conc.Count)
                     index2 = conc.Count;
                 return Ok(conc.GetRange(index1, index2 - index1));
+
             }
             return NoContent();
         }
@@ -43,6 +44,10 @@ namespace AplicatieConcediuAPI.Controllers
                 int nrPag = conc.Count / nrElemPePag;
                 if (conc.Count % nrElemPePag > 0)
                     nrPag++;
+                if(nrPag == 0)
+                {
+                    nrPag = 1;
+                }
                 return Ok(nrPag);
             }
             return NoContent();
@@ -99,6 +104,10 @@ namespace AplicatieConcediuAPI.Controllers
                 int nrPag = conc.Count / nrElemPePag;
                 if (conc.Count % nrElemPePag > 0)
                     nrPag++;
+                if (nrPag == 0)
+                {
+                    nrPag = 1;
+                }
                 return Ok(nrPag);
             }
             return NoContent();
