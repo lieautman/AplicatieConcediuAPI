@@ -438,6 +438,22 @@ namespace AplicatieConcediuAPI.Controllers
             return _gameOfThronesContext.Angajats.Where(x => x.ManagerId == null).ToList();
 
         }
+        [HttpGet("GetAngajatiPerEchipa")]
+        public List<Angajat> GetAngajatiPerEchipa( string numeEchipa)
+        {
+            List<Angajat> lista = _gameOfThronesContext.Angajats.Include(e => e.IdEchipaNavigation)
+                .Where(e => e.IdEchipaNavigation.Nume == numeEchipa).Select(angajat => new Angajat
+                {
+                    Id = angajat.Id,
+                    Nume = angajat.Nume,
+                    Prenume = angajat.Prenume,
+                    Email = angajat.Email,
+                    IdEchipaNavigation = new Echipa { Nume = angajat.IdEchipaNavigation.Nume }
+
+                }).ToList();
+            return lista;
+
+        }
         [HttpGet("GetEchipe")]
         public List<Echipa> GetEchipe()
         {
@@ -505,6 +521,8 @@ namespace AplicatieConcediuAPI.Controllers
             }
             return NoContent();
         }
+
+
         //preluare numar pagini
         [HttpPost("PostPreluareNumarDePaginiDinEchipa/{nrElemPePag}")]
         public ActionResult<int> PostPreluareNumarDePaginiDinEchipa([FromBody] Angajat a, int nrElemPePag)
