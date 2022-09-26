@@ -78,6 +78,53 @@ namespace AplicatieConcediuAPI.Controllers
 
             return concediuSpreAprobare;
         }
+
+        [HttpGet("GetConcediiSpreAprobareAll")]
+        public List<Concediu> GetConcediiSpreAprobareAll()
+        {
+            List<Concediu> concediuSpreAprobare = _gameOfThronesContext.Concedius.Include(tc => tc.TipConcediu)
+                .Include(angajat => angajat.Angajat)
+                .Include(inlocuitor => inlocuitor.Inlocuitor).Where(con => con.StareConcediuId == 3)
+                .Select(concediu => new Concediu
+                {
+                    Id = concediu.Id,
+                    TipConcediu = new TipConcediu { Nume = concediu.TipConcediu.Nume },
+                    DataInceput = concediu.DataInceput,
+                    DataSfarsit = concediu.DataSfarsit,
+                    Inlocuitor = new Angajat { Nume = concediu.Inlocuitor.Nume },
+                    Comentarii = concediu.Comentarii,
+                    Angajat = new Angajat { Nume = concediu.Angajat.Nume }
+                }).ToList();
+
+            return concediuSpreAprobare;
+        }
+
+        [HttpGet("GetAllConcedii")]
+        public List<Concediu> GetAllConcedii()
+        {
+            List<Concediu> conc = _gameOfThronesContext.Concedius.Include(tc => tc.TipConcediu)
+               .Include(angajat => angajat.Angajat)
+               .Include(inlocuitor => inlocuitor.Inlocuitor).Where(con => con.StareConcediuId == 1 )
+               .Select(concediu => new Concediu
+               {
+                   Id = concediu.Id,
+                   TipConcediu = new TipConcediu { Nume = concediu.TipConcediu.Nume },
+                   DataInceput = concediu.DataInceput,
+                   DataSfarsit = concediu.DataSfarsit,
+                   Inlocuitor = new Angajat { Nume = concediu.Inlocuitor.Nume },
+                   Comentarii = concediu.Comentarii,
+                   Angajat = new Angajat { Nume = concediu.Angajat.Nume }
+               }).ToList();
+            //if (conc != null)
+            //{
+            //    int nrPag = conc.Count / nrElemPePag;
+            //    if (conc.Count % nrElemPePag > 0)
+            //        nrPag++;
+            //    return Ok(nrPag);
+            //}
+            return conc;
+        }
+
         [HttpGet("GetPreluareNumarDePaginiAprobareConcedii/{nrElemPePag}")]
         public ActionResult<int> GetPreluareNumarDePaginiAprobareConcedii( int nrElemPePag)
         {
@@ -128,6 +175,34 @@ namespace AplicatieConcediuAPI.Controllers
             if (co != null)
             {
                 co.StareConcediuId = concediu.StareConcediuId;
+                _gameOfThronesContext.SaveChanges();
+            }
+
+            return Ok();
+
+        }
+
+        [HttpPost("UpdateStareConcediuAprobare")]
+        public ActionResult UpdateStareConcediuAprobare(int id)
+        {
+            var co = _gameOfThronesContext.Concedius.Where(c => c.Id == id).FirstOrDefault();
+            if (co != null)
+            {
+                co.StareConcediuId = 1;
+                _gameOfThronesContext.SaveChanges();
+            }
+
+            return Ok();
+
+        }
+
+        [HttpPost("UpdateStareConcediuRespingere")]
+        public ActionResult UpdateStareConcediuRespingere(int id)
+        {
+            var co = _gameOfThronesContext.Concedius.Where(c => c.Id == id).FirstOrDefault();
+            if (co != null)
+            {
+                co.StareConcediuId = 2;
                 _gameOfThronesContext.SaveChanges();
             }
 
