@@ -29,7 +29,7 @@ namespace AplicatieConcediuAPI.Controllers
 
 
 
-              /*string nume = a.Nume;
+              string nume = a.Nume;
                 string prenume = a.Prenume;
                 DateTime data_nastere = a.DataNasterii;
                 string email = a.Email;
@@ -38,12 +38,12 @@ namespace AplicatieConcediuAPI.Controllers
                 string SerieNrBuletin = a.SeriaNumarBuletin;
                 string parola = a.Parola;
                 
-                int numarzileconcediu = (int)a.NumarZileConceiduRamase;
+              //  int numarzileconcediu = (int)a.NumarZileConceiduRamase;
                 int managerid = (int)a.ManagerId;
                 bool esteangajatcuacteinregula = (bool)a.EsteAngajatCuActeInRegula;
                 float salariu = (float)a.Salariu;
                 int idechipa = (int)a.IdEchipa;
-                DateTime data_angajarii = (DateTime)a.DataAngajarii; */
+                DateTime data_angajarii = (DateTime)a.DataAngajarii; 
 
                 bool isError = false;
 
@@ -130,7 +130,7 @@ namespace AplicatieConcediuAPI.Controllers
                     return "Adaugare efectuata";
                 }
                 else
-                    return "Eroare de adaugare";
+                    return "Eroare  adaugare";
 
             }
             catch (Exception ex)
