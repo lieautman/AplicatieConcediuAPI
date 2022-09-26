@@ -597,6 +597,20 @@ namespace AplicatieConcediuAPI.Controllers
             return NoContent();
         }
 
+        [HttpGet("GetAllAngajati")]
+        public List<Angajat> GetAllAngajati()
+        {
+            List<Angajat> ang = _gameOfThronesContext.Angajats.Include(echipa=>echipa.IdEchipaNavigation).Select(x => new Angajat()
+            {
+                Id = x.Id,
+                Nume = x.Nume,
+                Prenume = x.Prenume,
+                Email = x.Email,
+                IdEchipaNavigation = new Echipa { Nume=x.IdEchipaNavigation.Nume} 
+            }). ToList();
+            return ang;
+        }
+
 
     }
 }
