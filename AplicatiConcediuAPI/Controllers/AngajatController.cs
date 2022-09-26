@@ -269,7 +269,7 @@ namespace AplicatieConcediuAPI.Controllers
             //verificare validitate date campuri
             if (!isError)
             {
-                const string reSalariu = "^[0-9]*$";
+                const string reSalariu = "^[\\d./-]+$";
                 if (!Regex.Match(salariu.ToString(), reSalariu, RegexOptions.IgnoreCase).Success)
                 {
                     isError = true;
@@ -399,6 +399,10 @@ namespace AplicatieConcediuAPI.Controllers
             {
                 bool isError = false;
                 validareAngajatInregistrare(a, out isError);
+                if(isError)
+                {
+                    return NoContent();
+                }
                 validareAngajatProfil(a, out isError);
                 if (!isError)
                 {
@@ -413,7 +417,7 @@ namespace AplicatieConcediuAPI.Controllers
                     ang.SeriaNumarBuletin = a.SeriaNumarBuletin;
                     ang.Salariu = a.Salariu;
                     _gameOfThronesContext.SaveChanges();
-                    return Ok();
+                    return Ok(ang);
                 }
                 return NoContent();
             }
