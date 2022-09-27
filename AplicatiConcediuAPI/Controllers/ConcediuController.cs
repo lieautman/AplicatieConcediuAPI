@@ -84,6 +84,78 @@ namespace AplicatieConcediuAPI.Controllers
             return concediuSpreAprobare;
         }
 
+        [HttpGet("GetAllConcedii/{index1}/{index2}")]
+        public List<Concediu> GetAllConcedii(int index1, int index2)
+        {
+            List<Concediu> conc = _gameOfThronesContext.Concedius.Include(tc => tc.TipConcediu)
+               .Include(angajat => angajat.Angajat)
+               .Include(inlocuitor => inlocuitor.Inlocuitor).Where(con => con.StareConcediuId == 1)
+               .Select(concediu => new Concediu
+               {
+                   Id = concediu.Id,
+                   TipConcediu = new TipConcediu { Nume = concediu.TipConcediu.Nume },
+                   DataInceput = concediu.DataInceput,
+                   DataSfarsit = concediu.DataSfarsit,
+                   Inlocuitor = new Angajat { Nume = concediu.Inlocuitor.Nume },
+                   Comentarii = concediu.Comentarii,
+                   Angajat = new Angajat { Nume = concediu.Angajat.Nume }
+               }).ToList();
+
+            if (conc != null)
+            {
+                if (index2 > conc.Count)
+                    index2 = conc.Count;
+                return conc.GetRange(index1, index2 - index1);
+            }
+            //if (conc != null)
+            //{
+            //    int nrPag = conc.Count / nrElemPePag;
+            //    if (conc.Count % nrElemPePag > 0)
+            //        nrPag++;
+            //    return Ok(nrPag);
+            //}
+            return conc;
+        }
+
+        [HttpGet("GetAllConcedii/{nrElemPePag}")]
+        public ActionResult<int> GetAllConcedii(int nrElemPePag)
+        {
+            List<Concediu> conc = _gameOfThronesContext.Concedius.Include(tc => tc.TipConcediu)
+               .Include(angajat => angajat.Angajat)
+               .Include(inlocuitor => inlocuitor.Inlocuitor).Where(con => con.StareConcediuId == 1)
+               .Select(concediu => new Concediu
+               {
+                   Id = concediu.Id,
+                   TipConcediu = new TipConcediu { Nume = concediu.TipConcediu.Nume },
+                   DataInceput = concediu.DataInceput,
+                   DataSfarsit = concediu.DataSfarsit,
+                   Inlocuitor = new Angajat { Nume = concediu.Inlocuitor.Nume },
+                   Comentarii = concediu.Comentarii,
+                   Angajat = new Angajat { Nume = concediu.Angajat.Nume }
+               }).ToList();
+
+            if (conc != null)
+            {
+                int nrPag = conc.Count / nrElemPePag;
+                if (conc.Count % nrElemPePag > 0)
+                    nrPag++;
+                if (nrPag == 0)
+                {
+                    nrPag = 1;
+                }
+                return Ok(nrPag);
+            }
+            return NoContent();
+            //if (conc != null)
+            //{
+            //    int nrPag = conc.Count / nrElemPePag;
+            //    if (conc.Count % nrElemPePag > 0)
+            //        nrPag++;
+            //    return Ok(nrPag);
+            //}
+           
+        }
+
         [HttpGet("GetConcediiSpreAprobareAll")]
         public List<Concediu> GetConcediiSpreAprobareAll()
         {
