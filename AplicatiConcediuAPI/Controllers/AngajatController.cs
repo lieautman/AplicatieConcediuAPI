@@ -633,6 +633,21 @@ namespace AplicatieConcediuAPI.Controllers
             return ang;
         }
 
+        [HttpGet("GetAngajatiById")]
+        public ActionResult<Angajat> GetAngajatiById(int id)
+        {
+           Angajat ang = _gameOfThronesContext.Angajats.Where(x=>x.Id==id)
+                .Include(echipa => echipa.IdEchipaNavigation)
+                .Select(x => new Angajat()
+                {Id=x.Id, Nume = x.Nume, Prenume = x.Prenume, Email = x.Email,Poza=x.Poza, IdEchipaNavigation = new Echipa { Nume = x.IdEchipaNavigation.Nume } }).FirstOrDefault();
+ 
+            return Ok(ang);
+        }
 
+        //public ActionResult<Angajat> NumePrenumeAngajat(string email)
+        //{
+        //    Angajat a = _gameOfThronesContext.Angajats.Where(x => x.Email == email).Select(x => new Angajat() { Nume = x.Nume, Prenume = x.Prenume }).FirstOrDefault();
+        //    return Ok(a);
+        //}
     }
 }
