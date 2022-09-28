@@ -388,7 +388,7 @@ namespace AplicatieConcediuAPI.Controllers
             ang = _gameOfThronesContext.Angajats.Select(x => x).Where(x => x.Email == email).FirstOrDefault();
             ang.Poza = a.Poza;
             _gameOfThronesContext.SaveChanges();
-            if (ang != null) { return Ok(); }
+            if (ang != null) { return Ok(ang); }
             return NoContent();
         }
         //formular afisare profil pe edit, acceptare modificari
