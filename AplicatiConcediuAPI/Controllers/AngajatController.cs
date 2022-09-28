@@ -385,13 +385,20 @@ namespace AplicatieConcediuAPI.Controllers
         {
             try
             {
-                string email = a.Email;
-                Angajat ang = new Angajat();
-                ang = _gameOfThronesContext.Angajats.Select(x => x).Where(x => x.Email == email).FirstOrDefault();
-                ang.Poza = a.Poza;
-                _gameOfThronesContext.SaveChanges();
-                if (ang != null) { return Ok(ang); }
-                return NoContent();
+                if (a.Poza!=null)
+                {
+                    string email = a.Email;
+                    Angajat ang = new Angajat();
+                    ang = _gameOfThronesContext.Angajats.Select(x => x).Where(x => x.Email == email).FirstOrDefault();
+                    ang.Poza = a.Poza;
+                    _gameOfThronesContext.SaveChanges();
+                    if (ang != null) { return Ok(ang); }
+                    return NoContent();
+                }
+                else
+                {
+                    return NoContent();
+                }
             }
             catch
             {
