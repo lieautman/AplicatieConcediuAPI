@@ -40,7 +40,7 @@ namespace AplicatieConcediuAPI.Controllers
                 
               //  int numarzileconcediu = (int)a.NumarZileConceiduRamase;
                 int managerid = (int)a.ManagerId;
-                bool esteangajatcuacteinregula = (bool)a.EsteAngajatCuActeInRegula;
+                //bool esteangajatcuacteinregula = (bool)a.EsteAngajatCuActeInRegula;
                 float salariu = (float)a.Salariu;
                 int idechipa = (int)a.IdEchipa;
                 DateTime data_angajarii = (DateTime)a.DataAngajarii; 
