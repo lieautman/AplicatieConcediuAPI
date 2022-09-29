@@ -16,7 +16,7 @@ namespace AplicatieConcediuAPI.Controllers
             _logger = logger;
             _gameOfThronesContext = gameOfThronesContext;
         }
-       // [HttpGet("GetInlocuitor/{AngajatId}")]
+        // [HttpGet("GetInlocuitor/{AngajatId}")]
         //public List<Angajat> GetInlocuitori(int AngajatId)
         //{
 
@@ -29,7 +29,7 @@ namespace AplicatieConcediuAPI.Controllers
         //        _inlocuitori;
         //}
         [HttpGet("GetInlocuitoriIndisponibili")]
-        public List<Angajat> GetInlocuitoriIndisponibili(DateTime dataIncepere, DateTime dataIncetare, [FromQuery]int AngajatId)
+        public List<Angajat> GetInlocuitoriIndisponibili(DateTime dataIncepere, DateTime dataIncetare, [FromQuery] int AngajatId)
         {
             Angajat angajatCurent = _gameOfThronesContext.Angajats.Where(x => x.Id == AngajatId).FirstOrDefault();
             if (angajatCurent == null)
@@ -58,16 +58,16 @@ namespace AplicatieConcediuAPI.Controllers
                 .Select(a => new Angajat() { Prenume = a.Prenume, Nume = a.Nume, Id = a.Id, IdEchipa = a.IdEchipa })
                 .ToList();
             return asd;
-           // List<Angajat> _inlocuitori = _gameOfThronesContext.Angajats
-           //     .Select(a => new Angajat() { Prenume = a.Prenume, Nume = a.Nume, Id = a.Id, IdEchipa = a.IdEchipa, })
-           //     .Where(a => a.IdEchipa == angajatCurent.IdEchipa && a.Id != angajatCurent.Id)
-           //     .ToList();
-           //return
-           //     _inlocuitori.Except(listAngCeNuPot).ToList();
+            // List<Angajat> _inlocuitori = _gameOfThronesContext.Angajats
+            //     .Select(a => new Angajat() { Prenume = a.Prenume, Nume = a.Nume, Id = a.Id, IdEchipa = a.IdEchipa, })
+            //     .Where(a => a.IdEchipa == angajatCurent.IdEchipa && a.Id != angajatCurent.Id)
+            //     .ToList();
+            //return
+            //     _inlocuitori.Except(listAngCeNuPot).ToList();
         }
-        
-                
-                [HttpGet("TipuriConcediu")]
+
+
+        [HttpGet("TipuriConcediu")]
         public List<TipConcediu> GetTipuriConcediu()
         {
             List<TipConcediu> _tipConcediu = _gameOfThronesContext.TipConcedius.Select(a => new TipConcediu() { Nume = a.Nume, Id = a.Id }).ToList();
@@ -93,7 +93,7 @@ namespace AplicatieConcediuAPI.Controllers
                 else
                     DictionarZileConcediu.Add(c.TipConcediuId.Value, c.DataSfarsit.Subtract(c.DataInceput).Days);
             }
-            
+
 
             foreach (TipConcediu tc in TipuriConcedii)
             {
@@ -106,24 +106,29 @@ namespace AplicatieConcediuAPI.Controllers
             }
             return DictionarZileConcediu;
         }
-    
-            //Angajat angajatCurent = _gameOfThronesContext.Angajats.Where(x => x.Email == AngajatEmail).FirstOrDefault();
-            //if (angajatCurent == null)
-            //    return null;
-            //return _gameOfThronesContext.Angajats.Select(x => new Angajat() {Id = x.Id, NumarZileConceiduRamase = x.NumarZileConceiduRamase, Email = x.Email }).Where(x => x.Id == angajatCurent.Id).FirstOrDefault();
 
-        
+        //Angajat angajatCurent = _gameOfThronesContext.Angajats.Where(x => x.Email == AngajatEmail).FirstOrDefault();
+        //if (angajatCurent == null)
+        //    return null;
+        //return _gameOfThronesContext.Angajats.Select(x => new Angajat() {Id = x.Id, NumarZileConceiduRamase = x.NumarZileConceiduRamase, Email = x.Email }).Where(x => x.Id == angajatCurent.Id).FirstOrDefault();
+
+
 
         [HttpPost("PostConcediu")]
-        public ActionResult PostConcediu([FromBody] Concediu c)
-
+        public ActionResult<Concediu> PostConcediu([FromBody] Concediu c)
         {
-        
-            _gameOfThronesContext.Concedius.Add(c);
-            _gameOfThronesContext.SaveChanges();
+            try
+            {
+                _gameOfThronesContext.Concedius.Add(c);
+                _gameOfThronesContext.SaveChanges();
 
-            return Ok();
+                return Ok(c);
 
-        }   
+            }
+            catch
+            {
+                return NoContent();
+            }
+        }
     }
 }
