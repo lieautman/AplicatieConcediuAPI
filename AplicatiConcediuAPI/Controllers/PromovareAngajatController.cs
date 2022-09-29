@@ -81,9 +81,6 @@ namespace AplicatieConcediuAPI.Controllers
             {
                 Angajat angBD = _gameOfThronesContext.Angajats.Select(x => x).Where(x => x.Email == angajat.Email).FirstOrDefault();
 
-                angBD.Nume = angajat.Nume;
-                angBD.Prenume = angajat.Prenume;
-                angBD.Email = angajat.Email;
                 angBD.ManagerId = angajat.ManagerId;
                 angBD.IdEchipa = angajat.IdEchipa;
                 _gameOfThronesContext.SaveChanges();
